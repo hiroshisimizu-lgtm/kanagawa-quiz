@@ -80,7 +80,7 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】交差点「岡野」周辺の地図",
-        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.4635178,139.6156453&t=m&hl=ja&z=17",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46343981462353, 139.61559402284166&t=m&hl=ja&z=17",
         "options": [
             "浅間下",
             "岡野",
