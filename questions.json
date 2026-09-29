@@ -33,7 +33,7 @@
 "options": ["三浦", "横須賀", "横浜", "藤沢", "鎌倉"],
 "answer": "横須賀",
 "difficulty": "hard"
-}
+},
 {
     "question": "この交差点名は？",
     "placeholderText": "【地図】交差点「尾上町」周辺の地図",
@@ -42,15 +42,10 @@
         "羽衣町",
         "馬車道",
         "尾上町"
-    ],
     "answer": "尾上町",
     "difficulty": "normal"
 },
 ］
-
-
-
-
 
 
 
