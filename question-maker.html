@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クイズ問題JSON生成ツール（自動補完付き）</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        pre { font-family: 'Courier New', Courier, monospace; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+
+    <header class="bg-emerald-600 text-white p-5 shadow-md">
+        <div class="container mx-auto max-w-5xl">
+            <h1 class="text-2xl font-bold flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                問題JSONジェネレーター
+            </h1>
+            <p class="text-sm mt-1 opacity-90">地点名を入力すると、地図の代替テキストを自動生成します</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto max-w-5xl p-4 mt-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+            
+            <!-- 左側：入力フォーム -->
+            <div class="w-full lg:w-1/2 bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-lg font-bold border-b pb-2 mb-4 text-slate-700">問題を入力</h2>
+                
+                <form id="question-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">問題文 <span class="text-red-500">*</span></label>
+                        <textarea id="input-question" required rows="2" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：日本最大級の中華街がある神奈川県の都市は？"></textarea>
+                    </div>
+
+                    <!-- 【新規追加】対象物・地点の名前と種類の入力エリア -->
+                    <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-lg space-y-3">
+                        <div>
+                            <label class="block text-sm font-bold text-emerald-800 mb-1">対象物・地点の名前 (自動生成用)</label>
+                            <input type="text" id="input-location-name" class="w-full border border-emerald-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：渋谷駅前, 国会議事堂">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-emerald-800 mb-1">対象物の種類</label>
+                            <div class="flex flex-wrap gap-3 text-sm">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="location-type" value="intersection" checked class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                                    <span class="ml-1 text-emerald-900">交差点</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="location-type" value="landmark" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                                    <span class="ml-1 text-emerald-900">ランドマーク / 建物</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="location-type" value="area" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                                    <span class="ml-1 text-emerald-900">エリア / 地域</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="location-type" value="other" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                                    <span class="ml-1 text-emerald-900">その他</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">プレースホルダー（画像・地図の代替テキスト）</label>
+                        <!-- ここに自動生成されたテキストが入ります -->
+                        <input type="text" id="input-placeholder" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="上の地点名を入力すると自動生成されます">
+                        <p class="text-xs text-slate-500 mt-1">※自動生成された後、手動で修正することも可能です。</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">選択肢（カンマ「,」区切りで入力） <span class="text-red-500">*</span></label>
+                        <input type="text" id="input-options" required class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：川崎, 横浜, 横須賀, 鎌倉">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">正解 <span class="text-red-500">*</span></label>
+                        <input type="text" id="input-answer" required class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：横浜">
+                        <p class="text-xs text-red-500 mt-1 hidden" id="answer-warning">※正解が選択肢の中に含まれていません！</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">難易度</label>
+                        <div class="flex gap-4">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="difficulty" value="normal" checked class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                                <span class="ml-2 text-slate-700">通常 (normal)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="difficulty" value="hard" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                                <span class="ml-2 text-slate-700">難問 (hard)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full mt-4 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-0.5">
+                        JSONデータを生成する ↓
+                    </button>
+                </form>
+            </div>
+
+            <!-- 右側：JSON出力エリア -->
+            <div class="w-full lg:w-1/2 flex flex-col">
+                <div class="bg-slate-800 rounded-xl shadow-md p-0 flex-grow flex flex-col overflow-hidden">
+                    <div class="bg-slate-900 px-4 py-3 flex justify-between items-center border-b border-slate-700">
+                        <span class="text-slate-300 font-bold text-sm">生成結果 (JSON)</span>
+                        <button id="copy-btn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-1.5 px-3 rounded shadow transition opacity-50 cursor-not-allowed" disabled>
+                            コピーする
+                        </button>
+                    </div>
+                    <div class="p-4 flex-grow relative">
+                        <textarea id="hidden-copy-area" class="opacity-0 absolute w-0 h-0"></textarea>
+                        <pre id="json-output" class="text-emerald-400 text-sm whitespace-pre-wrap break-all h-full min-h-[300px]">ここにデータが出力されます...</pre>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+                    <p class="font-bold mb-1">💡 使い方</p>
+                    <ol class="list-decimal pl-5 space-y-1">
+                        <li>左のフォームに問題・地点名を入力。</li>
+                        <li>「生成する」を押し、右上の「コピーする」を押す。</li>
+                        <li><code class="bg-white px-1 rounded">questions.json</code> の最後の <code class="bg-white px-1 rounded">]</code> の手前に貼り付ける。</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // DOM要素
+        const form = document.getElementById('question-form');
+        const outputArea = document.getElementById('json-output');
+        const copyBtn = document.getElementById('copy-btn');
+        const hiddenCopyArea = document.getElementById('hidden-copy-area');
+        const answerWarning = document.getElementById('answer-warning');
+        
+        // 自動生成用の要素
+        const locationNameInput = document.getElementById('input-location-name');
+        const locationTypeRadios = document.querySelectorAll('input[name="location-type"]');
+        const placeholderInput = document.getElementById('input-placeholder');
+        
+        let generatedJsonString = "";
+
+        // ==========================================
+        // 代替テキストの自動生成ロジック
+        // ==========================================
+        function updatePlaceholder() {
+            const name = locationNameInput.value.trim();
+            if (!name) return; // 名前が空なら何もしない
+
+            const type = document.querySelector('input[name="location-type"]:checked').value;
+            let generatedText = "";
+
+            if (type === 'intersection') {
+                generatedText = `【地図】交差点「${name}」周辺の地図`;
+            } else if (type === 'landmark') {
+                generatedText = `【地図】ランドマーク「${name}」周辺の地図`;
+            } else if (type === 'area') {
+                generatedText = `【地図】エリア「${name}」周辺の地図`;
+            } else {
+                generatedText = `【地図】${name}周辺`;
+            }
+
+            placeholderInput.value = generatedText;
+        }
+
+        // 名前入力時と種類変更時に自動生成を実行
+        locationNameInput.addEventListener('input', updatePlaceholder);
+        locationTypeRadios.forEach(radio => {
+            radio.addEventListener('change', updatePlaceholder);
+        });
+
+
+        // ==========================================
+        // JSON生成ロジック
+        // ==========================================
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // 1. 入力値の取得
+            const question = document.getElementById('input-question').value.trim();
+            const placeholderText = document.getElementById('input-placeholder').value.trim();
+            const optionsStr = document.getElementById('input-options').value;
+            const answer = document.getElementById('input-answer').value.trim();
+            const difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+
+            // 2. 選択肢を配列に変換（全角カンマ対応）
+            const optionsArray = optionsStr
+                .replace(/、/g, ',')
+                .replace(/，/g, ',')
+                .split(',')
+                .map(opt => opt.trim())
+                .filter(opt => opt !== ""); 
+
+            // 3. バリデーション
+            if (!optionsArray.includes(answer)) {
+                answerWarning.classList.remove('hidden');
+                answerWarning.classList.add('fade-in');
+            } else {
+                answerWarning.classList.add('hidden');
+            }
+
+            // 4. オブジェクトの作成
+            const newQuestionObj = {
+                question: question,
+                placeholderText: placeholderText,
+                options: optionsArray,
+                answer: answer,
+                difficulty: difficulty
+            };
+
+            // 5. JSON文字列に変換（末尾カンマ付き）
+            generatedJsonString = JSON.stringify(newQuestionObj, null, 4) + ",";
+
+            // 6. 画面に表示
+            outputArea.textContent = generatedJsonString;
+            
+            // コピーボタンを有効化
+            copyBtn.disabled = false;
+            copyBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-emerald-600');
+            copyBtn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
+            copyBtn.textContent = "コピーする";
+        });
+
+        // ==========================================
+        // コピー機能
+        // ==========================================
+        copyBtn.addEventListener('click', function() {
+            if (!generatedJsonString) return;
+
+            hiddenCopyArea.value = generatedJsonString;
+            hiddenCopyArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    copyBtn.textContent = "✓ コピーしました！";
+                    copyBtn.classList.replace('bg-emerald-500', 'bg-blue-500');
+                    copyBtn.classList.replace('hover:bg-emerald-400', 'hover:bg-blue-400');
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = "コピーする";
+                        copyBtn.classList.replace('bg-blue-500', 'bg-emerald-500');
+                        copyBtn.classList.replace('hover:bg-blue-400', 'hover:bg-emerald-400');
+                    }, 2000);
+                }
+            } catch (err) {
+                alert('コピーに失敗しました。手動で選択してコピーしてください。');
+            }
+        });
+    </script>
+</body>
+</html>

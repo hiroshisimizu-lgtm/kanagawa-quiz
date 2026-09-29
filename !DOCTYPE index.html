@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神奈川地理クイズ（外部データ読込版）</title>
+    <!-- Tailwind CSSの読み込み -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 画面を非表示にするためのクラス */
+        .hidden-screen { 
+            display: none !important; 
+        }
+        
+        /* 画面切り替え時のふわっと表示されるアニメーション */
+        .fade-in { 
+            animation: fadeIn 0.4s ease-out forwards; 
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="container mx-auto max-w-2xl text-center">
+            <h1 class="text-2xl font-bold">神奈川地理クイズ</h1>
+            <p class="text-sm opacity-80 mt-1">地名・交差点名を覚えよう！</p>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="flex-grow container mx-auto max-w-2xl p-4 mt-6">
+
+        <!-- ==========================================
+             ① スタート画面（モード選択など）
+        =========================================== -->
+        <div id="start-screen" class="bg-white rounded-xl shadow-lg p-6 md:p-10 fade-in">
+            <h2 class="text-xl font-bold mb-4 text-center border-b pb-2">クイズの設定</h2>
+            
+            <div class="mb-6">
+                <label class="block text-gray-700 font-medium mb-2">出題モードを選んでください</label>
+                <div class="flex flex-col space-y-3">
+                    <label class="flex items-center p-3 border rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                        <input type="radio" name="mode" value="normal" checked class="w-5 h-5 text-blue-600">
+                        <span class="ml-3">
+                            <span class="block font-bold">🌱 手軽に遊ぶモード</span>
+                            <span class="block text-sm text-gray-500">基本問題のみをサクッと出題</span>
+                        </span>
+                    </label>
+                    <label class="flex items-center p-3 border rounded-lg hover:bg-blue-50 cursor-pointer transition">
+                        <input type="radio" name="mode" value="hard" class="w-5 h-5 text-blue-600">
+                        <span class="ml-3">
+                            <span class="block font-bold">📚 じっくり勉強モード</span>
+                            <span class="block text-sm text-gray-500">難問を含めてじっくり出題</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 初期状態は読み込み中のため非活性(disabled)にしておく -->
+            <button id="start-btn" disabled class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1 mb-3">
+                問題を読み込み中...
+            </button>
+            <p id="loading-error-msg" class="text-red-500 text-sm text-center hidden-screen font-bold">
+                問題データの読み込みに失敗しました。ローカル環境の設定を確認してください。
+            </p>
+        </div>
+
+        <!-- ==========================================
+             ② クイズ出題画面
+        =========================================== -->
+        <div id="quiz-screen" class="hidden-screen bg-white rounded-xl shadow-lg p-6 md:p-10 fade-in">
+            
+            <!-- スコアと進捗 -->
+            <div class="flex justify-between items-center text-sm font-bold text-gray-500 mb-4 pb-2 border-b">
+                <span>問題 <span id="current-question-num" class="text-blue-600 text-lg">1</span> / <span id="total-questions">0</span></span>
+                <span>スコア: <span id="current-score" class="text-green-600 text-lg">0</span></span>
+            </div>
+
+            <!-- 問題文 -->
+            <h2 id="question-text" class="text-xl md:text-2xl font-bold mb-6 text-center leading-relaxed">
+                問題文がここに入ります。
+            </h2>
+
+            <!-- 画像・地図のプレースホルダー -->
+            <div id="media-placeholder" class="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center mb-6 border-2 border-dashed border-gray-400">
+                <span id="placeholder-text" class="text-gray-500 font-medium">地図や画像のプレースホルダー</span>
+            </div>
+
+            <!-- メッセージ表示エリア（正誤判定など） -->
+            <div id="message-area" class="hidden-screen mb-4 p-3 rounded-lg text-center font-bold"></div>
+
+            <!-- 解答エリア（ドロップダウン） -->
+            <div id="answer-area" class="mb-6">
+                <label for="answer-select" class="block text-gray-700 font-medium mb-2">解答を選択：</label>
+                <select id="answer-select" class="w-full border border-gray-300 rounded-lg p-3 bg-white text-gray-800 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                    <option value="">▼ 選択してください</option>
+                </select>
+            </div>
+
+            <!-- ボタンエリア -->
+            <button id="submit-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1">
+                解答する
+            </button>
+            <button id="next-btn" class="hidden-screen w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1">
+                次の問題へ
+            </button>
+        </div>
+
+        <!-- ==========================================
+             ③ 結果画面
+        =========================================== -->
+        <div id="result-screen" class="hidden-screen bg-white rounded-xl shadow-lg p-6 md:p-10 fade-in text-center">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">クイズ結果</h2>
+            
+            <div class="mb-8 p-6 bg-blue-50 rounded-lg inline-block w-full">
+                <p class="text-gray-600 mb-2">あなたの正解数は...</p>
+                <p class="text-4xl font-black text-blue-700">
+                    <span id="final-score">0</span> <span class="text-2xl">/</span> <span id="final-total">0</span>
+                </p>
+                <p id="result-comment" class="mt-4 text-lg font-bold text-gray-800"></p>
+            </div>
+
+            <button id="retry-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1">
+                もう一度遊ぶ
+            </button>
+        </div>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="text-center p-4 mt-8 text-gray-500 text-sm">
+        <p>&copy; 2026 第4期地理研究委員会 (サンプル)</p>
+    </footer>
+
+    <!-- アプリケーションロジック -->
+    <script>
+        // ==========================================
+        // 1. 状態管理変数
+        // ==========================================
+        let quizData = []; // 外部ファイルから読み込んだ全データを格納する変数
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // ==========================================
+        // 2. DOM要素の取得
+        // ==========================================
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const startBtn = document.getElementById('start-btn');
+        const errorMsg = document.getElementById('loading-error-msg');
+        const submitBtn = document.getElementById('submit-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        
+        const questionText = document.getElementById('question-text');
+        const placeholderText = document.getElementById('placeholder-text');
+        const answerSelect = document.getElementById('answer-select');
+        const messageArea = document.getElementById('message-area');
+        
+        const currentQuestionNumEl = document.getElementById('current-question-num');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const currentScoreEl = document.getElementById('current-score');
+
+        // ==========================================
+        // 3. データの非同期読み込み (Fetch API)
+        // ==========================================
+        async function loadQuizData() {
+            try {
+                // questions.jsonからデータを取得
+                const response = await fetch('./questions.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                quizData = await response.json(); // JSONを配列に変換して変数に保存
+                
+                // 読み込み成功：スタートボタンを有効化する
+                startBtn.disabled = false;
+                startBtn.textContent = 'クイズを始める';
+                
+            } catch (error) {
+                console.error("データの読み込みに失敗しました:", error);
+                startBtn.textContent = '読み込みエラー';
+                errorMsg.classList.remove('hidden-screen');
+            }
+        }
+
+        // ページが読み込まれたらデータを取得開始
+        window.addEventListener('DOMContentLoaded', loadQuizData);
+
+        // ==========================================
+        // 4. 関数定義
+        // ==========================================
+
+        // 配列をランダムにシャッフルする関数 (Fisher-Yatesシャッフル)
+        function shuffleArray(array) {
+            const shuffled = array.slice(); 
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; 
+            }
+            return shuffled;
+        }
+
+        // 画面を切り替える関数
+        function showScreen(screenToShow) {
+            startScreen.classList.add('hidden-screen');
+            quizScreen.classList.add('hidden-screen');
+            resultScreen.classList.add('hidden-screen');
+            
+            screenToShow.classList.remove('hidden-screen');
+            
+            screenToShow.classList.remove('fade-in');
+            void screenToShow.offsetWidth; 
+            screenToShow.classList.add('fade-in');
+        }
+
+        // メッセージを表示する関数
+        function showMessage(msg, isCorrect) {
+            messageArea.textContent = msg;
+            messageArea.className = 'mb-4 p-3 rounded-lg text-center font-bold ';
+            
+            if (isCorrect === true) {
+                messageArea.classList.add('bg-green-100', 'text-green-800');
+            } else if (isCorrect === false) {
+                messageArea.classList.add('bg-red-100', 'text-red-800');
+            } else {
+                messageArea.classList.add('bg-yellow-100', 'text-yellow-800');
+            }
+            messageArea.classList.remove('hidden-screen');
+        }
+
+        function hideMessage() {
+            messageArea.classList.add('hidden-screen');
+        }
+
+        // クイズを開始する関数
+        function startQuiz() {
+            if (quizData.length === 0) return; // データがない場合は開始しない
+
+            const selectedMode = document.querySelector('input[name="mode"]:checked').value;
+            
+            // モードに応じて問題をフィルタリング
+            let filteredQuestions = [];
+            if (selectedMode === 'normal') {
+                filteredQuestions = quizData.filter(q => q.difficulty === 'normal');
+            } else {
+                filteredQuestions = quizData; // hardモードは全問出題
+            }
+            
+            // 絞り込んだ問題をシャッフルしてセット
+            currentQuestions = shuffleArray(filteredQuestions);
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            totalQuestionsEl.textContent = currentQuestions.length;
+            currentScoreEl.textContent = score;
+            
+            loadQuestion();
+            showScreen(quizScreen);
+        }
+
+        // 問題を画面にセットする関数
+        function loadQuestion() {
+            const currentQ = currentQuestions[currentQuestionIndex];
+            
+            hideMessage();
+            submitBtn.classList.remove('hidden-screen');
+            nextBtn.classList.add('hidden-screen');
+            answerSelect.disabled = false;
+            
+            currentQuestionNumEl.textContent = currentQuestionIndex + 1;
+            questionText.textContent = currentQ.question;
+            placeholderText.textContent = currentQ.placeholderText;
+            
+            answerSelect.innerHTML = '<option value="">▼ 選択してください</option>';
+            currentQ.options.forEach(option => {
+                const optEl = document.createElement('option');
+                optEl.value = option;
+                optEl.textContent = option;
+                answerSelect.appendChild(optEl);
+            });
+        }
+
+        // 解答を判定する関数
+        function checkAnswer() {
+            const selectedValue = answerSelect.value;
+            
+            if (!selectedValue) {
+                showMessage("解答を選択してください！", null);
+                return;
+            }
+            
+            const currentQ = currentQuestions[currentQuestionIndex];
+            const isCorrect = (selectedValue === currentQ.answer);
+            
+            answerSelect.disabled = true;
+            submitBtn.classList.add('hidden-screen');
+            nextBtn.classList.remove('hidden-screen');
+            
+            if (isCorrect) {
+                score++;
+                currentScoreEl.textContent = score;
+                showMessage("⭕ 正解です！", true);
+            } else {
+                showMessage(`❌ 残念！正解は「${currentQ.answer}」です。`, false);
+            }
+        }
+
+        // 次の問題へ
+        function goToNext() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // 結果画面を表示する関数
+        function showResult() {
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-total').textContent = currentQuestions.length;
+            
+            const commentEl = document.getElementById('result-comment');
+            const percentage = score / currentQuestions.length;
+            
+            if (percentage === 1) {
+                commentEl.textContent = "パーフェクト！神奈川地理マスターですね！🎉";
+                commentEl.className = "mt-4 text-lg font-bold text-red-600";
+            } else if (percentage >= 0.5) {
+                commentEl.textContent = "素晴らしい！あと少しで満点です👍";
+                commentEl.className = "mt-4 text-lg font-bold text-blue-600";
+            } else {
+                commentEl.textContent = "まだまだ伸びしろがあります！もう一度挑戦しよう💪";
+                commentEl.className = "mt-4 text-lg font-bold text-gray-700";
+            }
+            
+            showScreen(resultScreen);
+        }
+
+        // ==========================================
+        // 5. イベントリスナーの設定
+        // ==========================================
+        startBtn.addEventListener('click', startQuiz);
+        submitBtn.addEventListener('click', checkAnswer);
+        nextBtn.addEventListener('click', goToNext);
+        retryBtn.addEventListener('click', () => {
+            // もう一度遊ぶときはシャッフルし直すため、再度スタート画面経由で設定させる
+            showScreen(startScreen);
+        });
+        
+        answerSelect.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !submitBtn.classList.contains('hidden-screen')) {
+                checkAnswer();
+            }
+        });
+
+    </script>
+</body>
+</html>
