@@ -10,7 +10,9 @@
             "小田原"
         ],
         "answer": "横浜",
-        "difficulty": "normal"
+        "region": "京浜交通圏",
+        "category": "地名",
+        "difficulty": "easy"
     },
     {
         "question": "大きな大仏があり、かつて幕府が置かれた歴史ある都市は？",
@@ -23,7 +25,9 @@
             "茅ヶ崎"
         ],
         "answer": "鎌倉",
-        "difficulty": "normal"
+        "region": "京浜交通圏",
+        "category": "地名",
+        "difficulty": "easy"
     },
     {
         "question": "芦ノ湖や大涌谷があり、温泉地として有名な観光地は？",
@@ -36,6 +40,8 @@
             "伊勢原"
         ],
         "answer": "箱根",
+        "region": "小田原交通圏",
+        "category": "地名",
         "difficulty": "normal"
     },
     {
@@ -49,7 +55,9 @@
             "逗子"
         ],
         "answer": "横須賀",
-        "difficulty": "hard"
+        "region": "京浜交通圏",
+        "category": "地名",
+        "difficulty": "normal"
     },
     {
         "question": "東京湾に浮かぶ唯一の自然島で、かつて要塞だった「猿島」がある市は？",
@@ -62,6 +70,8 @@
             "鎌倉"
         ],
         "answer": "横須賀",
+        "region": "京浜交通圏",
+        "category": "地名",
         "difficulty": "hard"
     },
     {
@@ -75,12 +85,14 @@
             "尾上町"
         ],
         "answer": "尾上町",
+        "region": "京浜交通圏",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】交差点「岡野」周辺の地図",
-        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46343981462353, 139.61559402284166&t=m&hl=ja&z=17",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46343981462353,139.61559402284166&t=m&hl=ja&z=17",
         "options": [
             "浅間下",
             "岡野",
@@ -88,6 +100,8 @@
             "浅山橋"
         ],
         "answer": "岡野",
+        "region": "京浜交通圏",
+        "category": "交差点名",
         "difficulty": "hard"
     }
 ]
