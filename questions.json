@@ -35,19 +35,18 @@
 "difficulty": "hard"
 },
 {
-    "question": "この交差点名は？",
-    "placeholderText": "【地図】交差点「尾上町」周辺の地図",
-    "options": [
-        "長者町五丁目",
-        "羽衣町",
-        "馬車道",
-        "尾上町"
-    "answer": "尾上町",
-    "difficulty": "normal"
+"question": "この交差点名は？",
+"placeholderText": "【地図】交差点「尾上町」周辺の地図",
+"options": [
+"長者町五丁目",
+"羽衣町",
+"馬車道",
+"尾上町"
+],
+"answer": "尾上町",
+"difficulty": "normal"
 }
-］
-
-
+]
 
 
 
