@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クイズ問題JSON生成ツール（自動補完付き）</title>
+    <title>クイズ問題JSON生成ツール（地図URL対応版）</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .fade-in { animation: fadeIn 0.3s ease-out; }
@@ -22,7 +22,7 @@
                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 問題JSONジェネレーター
             </h1>
-            <p class="text-sm mt-1 opacity-90">地点名を入力すると、地図の代替テキストを自動生成します</p>
+            <p class="text-sm mt-1 opacity-90">地図（Googleマップ）のURL入力に対応しました。</p>
         </div>
     </header>
 
@@ -36,14 +36,14 @@
                 <form id="question-form" class="space-y-4">
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1">問題文 <span class="text-red-500">*</span></label>
-                        <textarea id="input-question" required rows="2" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：日本最大級の中華街がある神奈川県の都市は？"></textarea>
+                        <textarea id="input-question" required rows="2" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：この交差点名は？"></textarea>
                     </div>
 
-                    <!-- 【新規追加】対象物・地点の名前と種類の入力エリア -->
+                    <!-- 対象物・地点の名前と種類の入力エリア -->
                     <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-lg space-y-3">
                         <div>
-                            <label class="block text-sm font-bold text-emerald-800 mb-1">対象物・地点の名前 (自動生成用)</label>
-                            <input type="text" id="input-location-name" class="w-full border border-emerald-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：渋谷駅前, 国会議事堂">
+                            <label class="block text-sm font-bold text-emerald-800 mb-1">対象物・地点の名前 (文字生成用)</label>
+                            <input type="text" id="input-location-name" class="w-full border border-emerald-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：尾上町">
                         </div>
                         
                         <div>
@@ -71,19 +71,27 @@
 
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1">プレースホルダー（画像・地図の代替テキスト）</label>
-                        <!-- ここに自動生成されたテキストが入ります -->
                         <input type="text" id="input-placeholder" class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="上の地点名を入力すると自動生成されます">
-                        <p class="text-xs text-slate-500 mt-1">※自動生成された後、手動で修正することも可能です。</p>
+                    </div>
+
+                    <!-- 【新規追加】GoogleマップURL入力エリア -->
+                    <div class="p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                        <label class="block text-sm font-bold text-blue-800 mb-1">🗺️ Googleマップ埋め込み用URL (任意)</label>
+                        <input type="text" id="input-map-url" class="w-full border border-blue-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="例：https://maps.google.co.jp/maps?output=embed&q=35.445,139.635&t=m&hl=ja&z=17">
+                        <p class="text-xs text-blue-600 mt-2 leading-relaxed">
+                            ※空欄の場合は、上の「プレースホルダー」の文字が表示されます。<br>
+                            ※ピンの名前を消すには <code>q=緯度,経度</code> の形式を使用してください。
+                        </p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1">選択肢（カンマ「,」区切りで入力） <span class="text-red-500">*</span></label>
-                        <input type="text" id="input-options" required class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：川崎, 横浜, 横須賀, 鎌倉">
+                        <input type="text" id="input-options" required class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：長者町五丁目, 羽衣町, 馬車道, 尾上町">
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1">正解 <span class="text-red-500">*</span></label>
-                        <input type="text" id="input-answer" required class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：横浜">
+                        <input type="text" id="input-answer" required class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" placeholder="例：尾上町">
                         <p class="text-xs text-red-500 mt-1 hidden" id="answer-warning">※正解が選択肢の中に含まれていません！</p>
                     </div>
 
@@ -125,9 +133,9 @@
                 <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
                     <p class="font-bold mb-1">💡 使い方</p>
                     <ol class="list-decimal pl-5 space-y-1">
-                        <li>左のフォームに問題・地点名を入力。</li>
-                        <li>「生成する」を押し、右上の「コピーする」を押す。</li>
-                        <li><code class="bg-white px-1 rounded">questions.json</code> の最後の <code class="bg-white px-1 rounded">]</code> の手前に貼り付ける。</li>
+                        <li>左のフォームに入力し「生成する」を押す。</li>
+                        <li>右上の「コピーする」ボタンを押す。</li>
+                        <li><code class="bg-white px-1 rounded">questions.json</code> の最後の <code class="bg-white px-1 rounded">]</code> の手前に貼り付ける。（一番最後の問題のカンマは後で消してください）</li>
                     </ol>
                 </div>
             </div>
@@ -155,7 +163,7 @@
         // ==========================================
         function updatePlaceholder() {
             const name = locationNameInput.value.trim();
-            if (!name) return; // 名前が空なら何もしない
+            if (!name) return;
 
             const type = document.querySelector('input[name="location-type"]:checked').value;
             let generatedText = "";
@@ -173,12 +181,10 @@
             placeholderInput.value = generatedText;
         }
 
-        // 名前入力時と種類変更時に自動生成を実行
         locationNameInput.addEventListener('input', updatePlaceholder);
         locationTypeRadios.forEach(radio => {
             radio.addEventListener('change', updatePlaceholder);
         });
-
 
         // ==========================================
         // JSON生成ロジック
@@ -186,14 +192,15 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // 1. 入力値の取得
+            // 入力値の取得
             const question = document.getElementById('input-question').value.trim();
             const placeholderText = document.getElementById('input-placeholder').value.trim();
+            const mapEmbedUrl = document.getElementById('input-map-url').value.trim(); // 新規追加
             const optionsStr = document.getElementById('input-options').value;
             const answer = document.getElementById('input-answer').value.trim();
             const difficulty = document.querySelector('input[name="difficulty"]:checked').value;
 
-            // 2. 選択肢を配列に変換（全角カンマ対応）
+            // 選択肢を配列に変換（全角カンマ対応）
             const optionsArray = optionsStr
                 .replace(/、/g, ',')
                 .replace(/，/g, ',')
@@ -201,7 +208,7 @@
                 .map(opt => opt.trim())
                 .filter(opt => opt !== ""); 
 
-            // 3. バリデーション
+            // バリデーション
             if (!optionsArray.includes(answer)) {
                 answerWarning.classList.remove('hidden');
                 answerWarning.classList.add('fade-in');
@@ -209,19 +216,24 @@
                 answerWarning.classList.add('hidden');
             }
 
-            // 4. オブジェクトの作成
-            const newQuestionObj = {
-                question: question,
-                placeholderText: placeholderText,
-                options: optionsArray,
-                answer: answer,
-                difficulty: difficulty
-            };
+            // オブジェクトの作成（順番を意識）
+            const newQuestionObj = {};
+            newQuestionObj.question = question;
+            
+            // mapEmbedUrl が入力されている場合のみ追加する
+            if (mapEmbedUrl !== "") {
+                newQuestionObj.mapEmbedUrl = mapEmbedUrl;
+            }
+            
+            newQuestionObj.placeholderText = placeholderText;
+            newQuestionObj.options = optionsArray;
+            newQuestionObj.answer = answer;
+            newQuestionObj.difficulty = difficulty;
 
-            // 5. JSON文字列に変換（末尾カンマ付き）
+            // JSON文字列に変換（配列追加用に末尾にカンマを付ける）
             generatedJsonString = JSON.stringify(newQuestionObj, null, 4) + ",";
 
-            // 6. 画面に表示
+            // 画面に表示
             outputArea.textContent = generatedJsonString;
             
             // コピーボタンを有効化
