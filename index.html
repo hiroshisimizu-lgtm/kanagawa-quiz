@@ -3,20 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神奈川地理クイズ（外部データ読込版）</title>
+    <title>神奈川地理クイズ</title>
     <!-- Tailwind CSSの読み込み -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 画面を非表示にするためのクラス */
-        .hidden-screen { 
-            display: none !important; 
-        }
-        
-        /* 画面切り替え時のふわっと表示されるアニメーション */
-        .fade-in { 
-            animation: fadeIn 0.4s ease-out forwards; 
-        }
-        
+        .hidden-screen { display: none !important; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -28,95 +20,92 @@
     <header class="bg-blue-600 text-white p-4 shadow-md">
         <div class="container mx-auto max-w-2xl text-center">
             <h1 class="text-2xl font-bold">神奈川地理クイズ</h1>
-            <p class="text-sm opacity-80 mt-1">地名・交差点名を覚えよう！</p>
+            <p class="text-sm opacity-80 mt-1">地名・交差点名・道路名を覚えよう！</p>
         </div>
     </header>
 
-    <!-- メインコンテンツ -->
     <main class="flex-grow container mx-auto max-w-2xl p-4 mt-6">
 
-        <!-- ==========================================
-             ① スタート画面（モード選択など）
-        =========================================== -->
-        <div id="start-screen" class="bg-white rounded-xl shadow-lg p-6 md:p-10 fade-in">
-            <h2 class="text-xl font-bold mb-4 text-center border-b pb-2">クイズの設定</h2>
+        <!-- ① スタート画面 -->
+        <div id="start-screen" class="bg-white rounded-xl shadow-lg p-6 md:p-8 fade-in">
+            <h2 class="text-xl font-bold mb-6 text-center border-b pb-3">出題条件の設定</h2>
             
-            <div class="mb-6">
-                <label class="block text-gray-700 font-medium mb-2">出題モードを選んでください</label>
-                <div class="flex flex-col space-y-3">
-                    <label class="flex items-center p-3 border rounded-lg hover:bg-blue-50 cursor-pointer transition">
-                        <input type="radio" name="mode" value="normal" checked class="w-5 h-5 text-blue-600">
-                        <span class="ml-3">
-                            <span class="block font-bold">🌱 手軽に遊ぶモード</span>
-                            <span class="block text-sm text-gray-500">基本問題のみをサクッと出題</span>
-                        </span>
-                    </label>
-                    <label class="flex items-center p-3 border rounded-lg hover:bg-blue-50 cursor-pointer transition">
-                        <input type="radio" name="mode" value="hard" class="w-5 h-5 text-blue-600">
-                        <span class="ml-3">
-                            <span class="block font-bold">📚 じっくり勉強モード</span>
-                            <span class="block text-sm text-gray-500">難問を含めてじっくり出題</span>
-                        </span>
-                    </label>
+            <div class="space-y-6 mb-8">
+                <!-- 1. 交通圏選択（ボタン形式） -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">① 交通圏（エリア）</label>
+                    <div class="grid grid-cols-2 gap-2" id="region-btn-group">
+                        <button type="button" data-value="all" class="opt-btn region-btn active border rounded-lg py-2.5 px-3 text-sm transition">指定なし</button>
+                        <button type="button" data-value="京浜交通圏" class="opt-btn region-btn border rounded-lg py-2.5 px-3 text-sm transition">京浜交通圏</button>
+                        <button type="button" data-value="県央交通圏" class="opt-btn region-btn border rounded-lg py-2.5 px-3 text-sm transition">県央交通圏</button>
+                        <button type="button" data-value="小田原交通圏" class="opt-btn region-btn border rounded-lg py-2.5 px-3 text-sm transition">小田原交通圏</button>
+                    </div>
+                </div>
+
+                <!-- 2. ジャンル選択（ボタン形式） -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">② ジャンル</label>
+                    <div class="grid grid-cols-2 gap-2" id="category-btn-group">
+                        <button type="button" data-value="all" class="opt-btn category-btn active border rounded-lg py-2.5 px-3 text-sm transition">指定なし</button>
+                        <button type="button" data-value="地名" class="opt-btn category-btn border rounded-lg py-2.5 px-3 text-sm transition">地名</button>
+                        <button type="button" data-value="交差点名" class="opt-btn category-btn border rounded-lg py-2.5 px-3 text-sm transition">交差点名</button>
+                        <button type="button" data-value="道路名" class="opt-btn category-btn border rounded-lg py-2.5 px-3 text-sm transition">道路名</button>
+                    </div>
+                </div>
+
+                <!-- 3. 難易度選択（ボタン形式） -->
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">③ 難易度</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2" id="difficulty-btn-group">
+                        <button type="button" data-value="all" class="opt-btn difficulty-btn active border rounded-lg py-2.5 px-2 text-sm transition">指定なし</button>
+                        <button type="button" data-value="easy" class="opt-btn difficulty-btn border rounded-lg py-2.5 px-2 text-sm transition">🌱 やさしい</button>
+                        <button type="button" data-value="normal" class="opt-btn difficulty-btn border rounded-lg py-2.5 px-2 text-sm transition">🌿 ふつう</button>
+                        <button type="button" data-value="hard" class="opt-btn difficulty-btn border rounded-lg py-2.5 px-2 text-sm transition">🌳 むずかしい</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- 初期状態は読み込み中のため非活性(disabled)にしておく -->
-            <button id="start-btn" disabled class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1 mb-3">
+            <button id="start-btn" disabled class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3.5 px-4 rounded-lg shadow-md transition transform hover:-translate-y-0.5 mb-3">
                 問題を読み込み中...
             </button>
             <p id="loading-error-msg" class="text-red-500 text-sm text-center hidden-screen font-bold">
-                問題データの読み込みに失敗しました。ローカル環境の設定を確認してください。
+                問題データの読み込みに失敗しました。
             </p>
         </div>
 
-        <!-- ==========================================
-             ② クイズ出題画面
-        =========================================== -->
+        <!-- ② クイズ出題画面 -->
         <div id="quiz-screen" class="hidden-screen bg-white rounded-xl shadow-lg p-6 md:p-10 fade-in">
-            
-            <!-- スコアと進捗 -->
             <div class="flex justify-between items-center text-sm font-bold text-gray-500 mb-4 pb-2 border-b">
                 <span>問題 <span id="current-question-num" class="text-blue-600 text-lg">1</span> / <span id="total-questions">0</span></span>
                 <span>スコア: <span id="current-score" class="text-green-600 text-lg">0</span></span>
             </div>
 
-            <!-- 問題文 -->
-            <h2 id="question-text" class="text-xl md:text-2xl font-bold mb-6 text-center leading-relaxed">
-                問題文がここに入ります。
-            </h2>
+            <h2 id="question-text" class="text-xl md:text-2xl font-bold mb-6 text-center leading-relaxed"></h2>
 
-            <!-- 画像・地図のプレースホルダー -->
             <div id="media-placeholder" class="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center mb-6 border-2 border-dashed border-gray-400">
-                <span id="placeholder-text" class="text-gray-500 font-medium">地図や画像のプレースホルダー</span>
+                <span id="placeholder-text" class="text-gray-500 font-medium"></span>
             </div>
 
-            <!-- メッセージ表示エリア（正誤判定など） -->
             <div id="message-area" class="hidden-screen mb-4 p-3 rounded-lg text-center font-bold"></div>
 
-            <!-- 解答エリア（ドロップダウン） -->
             <div id="answer-area" class="mb-6">
                 <label for="answer-select" class="block text-gray-700 font-medium mb-2">解答を選択：</label>
-                <select id="answer-select" class="w-full border border-gray-300 rounded-lg p-3 bg-white text-gray-800 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                <select id="answer-select" class="w-full border border-gray-300 rounded-lg p-3 bg-white text-gray-800 text-lg shadow-sm focus:ring-2 focus:ring-blue-500 appearance-none">
                     <option value="">▼ 選択してください</option>
                 </select>
             </div>
 
-            <!-- ボタンエリア -->
-            <button id="submit-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1">
+            <button id="submit-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow transition">
                 解答する
             </button>
-            <button id="next-btn" class="hidden-screen w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1">
+            <button id="next-btn" class="hidden-screen w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow transition">
                 次の問題へ
             </button>
         </div>
 
-        <!-- ==========================================
-             ③ 結果画面
-        =========================================== -->
+        <!-- ③ 結果画面 -->
         <div id="result-screen" class="hidden-screen bg-white rounded-xl shadow-lg p-6 md:p-10 fade-in text-center">
             <h2 class="text-2xl font-bold mb-6 text-gray-800">クイズ結果</h2>
-            
             <div class="mb-8 p-6 bg-blue-50 rounded-lg inline-block w-full">
                 <p class="text-gray-600 mb-2">あなたの正解数は...</p>
                 <p class="text-4xl font-black text-blue-700">
@@ -124,32 +113,28 @@
                 </p>
                 <p id="result-comment" class="mt-4 text-lg font-bold text-gray-800"></p>
             </div>
-
-            <button id="retry-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow transition transform hover:-translate-y-1">
-                もう一度遊ぶ
+            <button id="retry-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow transition">
+                条件を変えてもう一度遊ぶ
             </button>
         </div>
 
     </main>
 
-    <!-- フッター -->
     <footer class="text-center p-4 mt-8 text-gray-500 text-sm">
         <p>&copy; 2026 第4期地理研究委員会 (サンプル)</p>
     </footer>
 
-    <!-- アプリケーションロジック -->
     <script>
-        // ==========================================
-        // 1. 状態管理変数
-        // ==========================================
         let quizData = []; 
         let currentQuestions = [];
         let currentQuestionIndex = 0;
         let score = 0;
 
-        // ==========================================
-        // 2. DOM要素の取得
-        // ==========================================
+        // ボタン選択用の変数
+        let selectedRegion = 'all';
+        let selectedCategory = 'all';
+        let selectedDifficulty = 'all';
+
         const startScreen = document.getElementById('start-screen');
         const quizScreen = document.getElementById('quiz-screen');
         const resultScreen = document.getElementById('result-screen');
@@ -161,7 +146,6 @@
         const retryBtn = document.getElementById('retry-btn');
         
         const questionText = document.getElementById('question-text');
-        const placeholderText = document.getElementById('placeholder-text');
         const answerSelect = document.getElementById('answer-select');
         const messageArea = document.getElementById('message-area');
         
@@ -169,22 +153,40 @@
         const totalQuestionsEl = document.getElementById('total-questions');
         const currentScoreEl = document.getElementById('current-score');
 
-        // ==========================================
-        // 3. データの非同期読み込み (Fetch API)
-        // ==========================================
+        // ボタンの見た目クラス定義
+        const ACTIVE_CLASSES = ['bg-blue-600', 'text-white', 'font-bold', 'border-blue-600', 'shadow-sm'];
+        const INACTIVE_CLASSES = ['bg-white', 'text-gray-700', 'border-gray-300', 'hover:bg-blue-50'];
+
+        // ボタン切り替えイベントの設定関数
+        function setupButtonGroup(buttons, onChange) {
+            buttons.forEach(btn => {
+                // 初期スタイルのセット
+                if (btn.classList.contains('active')) {
+                    btn.classList.add(...ACTIVE_CLASSES);
+                } else {
+                    btn.classList.add(...INACTIVE_CLASSES);
+                }
+
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => {
+                        b.classList.remove('active', ...ACTIVE_CLASSES);
+                        b.classList.add(...INACTIVE_CLASSES);
+                    });
+                    btn.classList.remove(...INACTIVE_CLASSES);
+                    btn.classList.add('active', ...ACTIVE_CLASSES);
+                    onChange(btn.dataset.value);
+                });
+            });
+        }
+
         async function loadQuizData() {
             try {
                 const response = await fetch('./questions.json');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 quizData = await response.json(); 
                 
                 startBtn.disabled = false;
-                startBtn.textContent = 'クイズを始める';
-                
+                startBtn.textContent = 'クイズを開始する';
             } catch (error) {
                 console.error("データの読み込みに失敗しました:", error);
                 startBtn.textContent = '読み込みエラー';
@@ -192,11 +194,14 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', loadQuizData);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadQuizData();
 
-        // ==========================================
-        // 4. 関数定義
-        // ==========================================
+            // ボタン切替イベントを登録
+            setupButtonGroup(document.querySelectorAll('.region-btn'), val => selectedRegion = val);
+            setupButtonGroup(document.querySelectorAll('.category-btn'), val => selectedCategory = val);
+            setupButtonGroup(document.querySelectorAll('.difficulty-btn'), val => selectedDifficulty = val);
+        });
 
         function shuffleArray(array) {
             const shuffled = array.slice(); 
@@ -211,9 +216,7 @@
             startScreen.classList.add('hidden-screen');
             quizScreen.classList.add('hidden-screen');
             resultScreen.classList.add('hidden-screen');
-            
             screenToShow.classList.remove('hidden-screen');
-            
             screenToShow.classList.remove('fade-in');
             void screenToShow.offsetWidth; 
             screenToShow.classList.add('fade-in');
@@ -222,7 +225,6 @@
         function showMessage(msg, isCorrect) {
             messageArea.textContent = msg;
             messageArea.className = 'mb-4 p-3 rounded-lg text-center font-bold ';
-            
             if (isCorrect === true) {
                 messageArea.classList.add('bg-green-100', 'text-green-800');
             } else if (isCorrect === false) {
@@ -237,18 +239,23 @@
             messageArea.classList.add('hidden-screen');
         }
 
+        // 条件に合わせて問題を抽出（フィルタリング）する処理
         function startQuiz() {
             if (quizData.length === 0) return; 
 
-            const selectedMode = document.querySelector('input[name="mode"]:checked').value;
-            
-            let filteredQuestions = [];
-            if (selectedMode === 'normal') {
-                filteredQuestions = quizData.filter(q => q.difficulty === 'normal');
-            } else {
-                filteredQuestions = quizData; 
+            // 選択された3つの条件すべてに合致する問題のみ抽出
+            let filteredQuestions = quizData.filter(q => {
+                const regionMatch = (selectedRegion === 'all' || q.region === selectedRegion);
+                const categoryMatch = (selectedCategory === 'all' || q.category === selectedCategory);
+                const difficultyMatch = (selectedDifficulty === 'all' || q.difficulty === selectedDifficulty);
+                return regionMatch && categoryMatch && difficultyMatch;
+            });
+
+            if (filteredQuestions.length === 0) {
+                alert("選択した条件に該当する問題がありません。条件を変更してください。");
+                return;
             }
-            
+
             currentQuestions = shuffleArray(filteredQuestions);
             currentQuestionIndex = 0;
             score = 0;
@@ -260,7 +267,6 @@
             showScreen(quizScreen);
         }
 
-        // --- 今回修正した loadQuestion 関数 ---
         function loadQuestion() {
             const currentQ = currentQuestions[currentQuestionIndex];
             
@@ -272,20 +278,16 @@
             currentQuestionNumEl.textContent = currentQuestionIndex + 1;
             questionText.textContent = currentQ.question;
             
-            // 地図か文字かを自動判定して表示する
             const mediaContainer = document.getElementById('media-placeholder');
             
             if (currentQ.mapEmbedUrl) {
-                // mapEmbedUrlがある場合はGoogleマップを表示
                 mediaContainer.innerHTML = `<iframe src="${currentQ.mapEmbedUrl}" width="100%" height="100%" style="border:0; border-radius: 0.5rem;" allowfullscreen="" loading="lazy"></iframe>`;
                 mediaContainer.className = "w-full h-64 md:h-80 bg-gray-200 rounded-lg mb-6 overflow-hidden shadow-inner";
             } else {
-                // ない場合は文字プレースホルダーを表示
                 mediaContainer.innerHTML = `<span id="placeholder-text" class="text-gray-500 font-medium">${currentQ.placeholderText || '画像がありません'}</span>`;
                 mediaContainer.className = "w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center mb-6 border-2 border-dashed border-gray-400";
             }
             
-            // 復活させた選択肢のセット処理
             answerSelect.innerHTML = '<option value="">▼ 選択してください</option>';
             currentQ.options.forEach(option => {
                 const optEl = document.createElement('option');
@@ -297,7 +299,6 @@
 
         function checkAnswer() {
             const selectedValue = answerSelect.value;
-            
             if (!selectedValue) {
                 showMessage("解答を選択してください！", null);
                 return;
@@ -336,35 +337,29 @@
             const percentage = score / currentQuestions.length;
             
             if (percentage === 1) {
-                commentEl.textContent = "パーフェクト！神奈川地理マスターですね！🎉";
+                commentEl.textContent = "パーフェクト！完璧です！🎉";
                 commentEl.className = "mt-4 text-lg font-bold text-red-600";
             } else if (percentage >= 0.5) {
-                commentEl.textContent = "素晴らしい！あと少しで満点です👍";
+                commentEl.textContent = "素晴らしい成績です！👍";
                 commentEl.className = "mt-4 text-lg font-bold text-blue-600";
             } else {
-                commentEl.textContent = "まだまだ伸びしろがあります！もう一度挑戦しよう💪";
+                commentEl.textContent = "復習して再挑戦しよう！💪";
                 commentEl.className = "mt-4 text-lg font-bold text-gray-700";
             }
             
             showScreen(resultScreen);
         }
 
-        // ==========================================
-        // 5. イベントリスナーの設定
-        // ==========================================
         startBtn.addEventListener('click', startQuiz);
         submitBtn.addEventListener('click', checkAnswer);
         nextBtn.addEventListener('click', goToNext);
-        retryBtn.addEventListener('click', () => {
-            showScreen(startScreen);
-        });
+        retryBtn.addEventListener('click', () => showScreen(startScreen));
         
         answerSelect.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !submitBtn.classList.contains('hidden-screen')) {
                 checkAnswer();
             }
         });
-
     </script>
 </body>
 </html>
