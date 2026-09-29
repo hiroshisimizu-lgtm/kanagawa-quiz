@@ -36,7 +36,7 @@
 },
 {
     "question": "この交差点名は？",
-    "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.445217,139.635957&t=m&hl=ja&z=17",
+    "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44580047496975, 139.63586047025277&t=m&hl=ja&z=17",
     "options": [
         "長者町五丁目",
         "羽衣町",
