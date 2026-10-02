@@ -102,6 +102,21 @@
         "answer": "岡野",
         "region": "京浜交通圏",
         "category": "交差点名",
-        "difficulty": "hard"
-    }
+        "difficulty": "normal"
+    },
+    {
+    "question": "この交差点名は？",
+    "placeholderText": "【地図】",
+    "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.4885433232103,139.6485979140559&t=m&hl=ja&z=17",
+    "options": [
+        "入江町",
+        "大口通",
+        "新子安",
+        "内路"
+    ],
+    "answer": "入江町",
+    "region": "京浜交通圏",
+    "category": "交差点名",
+    "difficulty": "normal"
+}
 ]
