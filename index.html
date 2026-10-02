@@ -20,7 +20,7 @@
     <header class="bg-blue-600 text-white p-4 shadow-md">
         <div class="container mx-auto max-w-2xl text-center">
             <h1 class="text-2xl font-bold">神奈川地理クイズ</h1>
-            <p class="text-sm opacity-80 mt-1">地名・交差点名・道路名を覚えよう！</p>
+            <p class="text-sm opacity-80 mt-1">地名・施設名・交差点名・道路名を覚えよう！</p>
         </div>
     </header>
 
@@ -47,7 +47,7 @@
                     <label class="block text-gray-700 font-bold mb-2">② ジャンル</label>
                     <div class="grid grid-cols-2 gap-2" id="category-btn-group">
                         <button type="button" data-value="all" class="opt-btn category-btn active border rounded-lg py-2.5 px-3 text-sm transition">指定なし</button>
-                        <button type="button" data-value="地名" class="opt-btn category-btn border rounded-lg py-2.5 px-3 text-sm transition">地名</button>
+                        <button type="button" data-value="地名・施設名" class="opt-btn category-btn border rounded-lg py-2.5 px-3 text-sm transition">地名・施設名</button>
                         <button type="button" data-value="交差点名" class="opt-btn category-btn border rounded-lg py-2.5 px-3 text-sm transition">交差点名</button>
                         <button type="button" data-value="道路名" class="opt-btn category-btn border rounded-lg py-2.5 px-3 text-sm transition">道路名</button>
                     </div>
@@ -130,7 +130,6 @@
         let currentQuestionIndex = 0;
         let score = 0;
 
-        // ボタン選択用の変数
         let selectedRegion = 'all';
         let selectedCategory = 'all';
         let selectedDifficulty = 'all';
@@ -153,14 +152,11 @@
         const totalQuestionsEl = document.getElementById('total-questions');
         const currentScoreEl = document.getElementById('current-score');
 
-        // ボタンの見た目クラス定義
         const ACTIVE_CLASSES = ['bg-blue-600', 'text-white', 'font-bold', 'border-blue-600', 'shadow-sm'];
         const INACTIVE_CLASSES = ['bg-white', 'text-gray-700', 'border-gray-300', 'hover:bg-blue-50'];
 
-        // ボタン切り替えイベントの設定関数
         function setupButtonGroup(buttons, onChange) {
             buttons.forEach(btn => {
-                // 初期スタイルのセット
                 if (btn.classList.contains('active')) {
                     btn.classList.add(...ACTIVE_CLASSES);
                 } else {
@@ -197,7 +193,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             loadQuizData();
 
-            // ボタン切替イベントを登録
             setupButtonGroup(document.querySelectorAll('.region-btn'), val => selectedRegion = val);
             setupButtonGroup(document.querySelectorAll('.category-btn'), val => selectedCategory = val);
             setupButtonGroup(document.querySelectorAll('.difficulty-btn'), val => selectedDifficulty = val);
@@ -239,14 +234,17 @@
             messageArea.classList.add('hidden-screen');
         }
 
-        // 条件に合わせて問題を抽出（フィルタリング）する処理
         function startQuiz() {
             if (quizData.length === 0) return; 
 
-            // 選択された3つの条件すべてに合致する問題のみ抽出
             let filteredQuestions = quizData.filter(q => {
                 const regionMatch = (selectedRegion === 'all' || q.region === selectedRegion);
-                const categoryMatch = (selectedCategory === 'all' || q.category === selectedCategory);
+                
+                // 「地名・施設名」が選ばれた場合、古い「地名」データもまとめて対象にする
+                const categoryMatch = (selectedCategory === 'all' || 
+                                       q.category === selectedCategory || 
+                                       (selectedCategory === '地名・施設名' && q.category === '地名'));
+                                       
                 const difficultyMatch = (selectedDifficulty === 'all' || q.difficulty === selectedDifficulty);
                 return regionMatch && categoryMatch && difficultyMatch;
             });
