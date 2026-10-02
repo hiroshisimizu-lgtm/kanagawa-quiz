@@ -1,80 +1,5 @@
 [
     {
-        "question": "日本最大級の中華街がある神奈川県の都市は？",
-        "placeholderText": "【画像】中華街の門",
-        "options": [
-            "川崎",
-            "横浜",
-            "横須賀",
-            "鎌倉",
-            "小田原"
-        ],
-        "answer": "横浜",
-        "region": "京浜交通圏",
-        "category": "地名",
-        "difficulty": "easy"
-    },
-    {
-        "question": "大きな大仏があり、かつて幕府が置かれた歴史ある都市は？",
-        "placeholderText": "【画像】大仏",
-        "options": [
-            "鎌倉",
-            "藤沢",
-            "逗子",
-            "三浦",
-            "茅ヶ崎"
-        ],
-        "answer": "鎌倉",
-        "region": "京浜交通圏",
-        "category": "地名",
-        "difficulty": "easy"
-    },
-    {
-        "question": "芦ノ湖や大涌谷があり、温泉地として有名な観光地は？",
-        "placeholderText": "【地図】芦ノ湖周辺",
-        "options": [
-            "湯河原",
-            "箱根",
-            "小田原",
-            "真鶴",
-            "伊勢原"
-        ],
-        "answer": "箱根",
-        "region": "小田原交通圏",
-        "category": "地名",
-        "difficulty": "normal"
-    },
-    {
-        "question": "ペリー来航の地であり、現在もアメリカ海軍の基地がある都市は？",
-        "placeholderText": "【画像】軍港",
-        "options": [
-            "横須賀",
-            "横浜",
-            "三浦",
-            "川崎",
-            "逗子"
-        ],
-        "answer": "横須賀",
-        "region": "京浜交通圏",
-        "category": "地名",
-        "difficulty": "normal"
-    },
-    {
-        "question": "東京湾に浮かぶ唯一の自然島で、かつて要塞だった「猿島」がある市は？",
-        "placeholderText": "【画像】猿島",
-        "options": [
-            "三浦",
-            "横須賀",
-            "横浜",
-            "藤沢",
-            "鎌倉"
-        ],
-        "answer": "横須賀",
-        "region": "京浜交通圏",
-        "category": "地名",
-        "difficulty": "hard"
-    },
-    {
         "question": "この交差点名は？",
         "placeholderText": "【地図】交差点「尾上町」周辺の地図",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44579535927248,139.6358278167801&t=m&hl=ja&z=17",
@@ -160,6 +85,21 @@
         "A突堤入口"
     ],
     "answer": "山下橋",
+    "region": "京浜交通圏",
+    "category": "交差点名",
+    "difficulty": "normal"
+},
+    {
+    "question": "この交差点名は？",
+    "placeholderText": "【地図】",
+    "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.438219401878236,139.62467532068146&t=m&hl=ja&z=17",
+    "options": [
+        "太田橋",
+        "駿河橋",
+        "阪東橋",
+        "浦舟町"
+    ],
+    "answer": "阪東橋",
     "region": "京浜交通圏",
     "category": "交差点名",
     "difficulty": "normal"
