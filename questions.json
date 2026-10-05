@@ -193,5 +193,20 @@
     "region": "京浜交通圏",
     "category": "交差点名",
     "difficulty": "normal"
+},
+{
+    "question": "この交差点名は？",
+    "placeholderText": "【地図】",
+    "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.52854632826157,139.73807223841823&t=m&hl=ja&z=17",
+    "options": [
+        "塩浜",
+        "出来野",
+        "大師河原",
+        "夜光"
+    ],
+    "answer": "塩浜",
+    "region": "京浜交通圏",
+    "category": "交差点名",
+    "difficulty": "normal"
 }
 ]
