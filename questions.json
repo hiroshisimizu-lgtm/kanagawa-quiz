@@ -163,5 +163,19 @@
     "region": "京浜交通圏",
     "category": "交差点名",
     "difficulty": "normal"
+},
+    "question": "この交差点名は？",
+    "placeholderText": "【地図】",
+    "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.57150265635177,139.66002560153586&t=m&hl=ja&z=17",
+    "options": [
+        "新丸子東三丁目",
+        "市ノ坪",
+        "木月四丁目",
+        "小杉御殿町"
+    ],
+    "answer": "市ノ坪",
+    "region": "京浜交通圏",
+    "category": "交差点名",
+    "difficulty": "normal"
 }
 ]
