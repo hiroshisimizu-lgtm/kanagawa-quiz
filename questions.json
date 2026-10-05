@@ -223,5 +223,20 @@
     "region": "京浜交通圏",
     "category": "交差点名",
     "difficulty": "normal"
+},
+{
+    "question": "この交差点名は？",
+    "placeholderText": "【地図】",
+    "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.55295959727036,139.6798641412268&t=m&hl=ja&z=17",
+    "options": [
+        "中丸子交番前",
+        "下平間交番",
+        "南加瀬交番",
+        "駒岡交番前"
+    ],
+    "answer": "下平間交番",
+    "region": "京浜交通圏",
+    "category": "交差点名",
+    "difficulty": "normal"
 }
 ]
