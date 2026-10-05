@@ -268,5 +268,6 @@
     "region": "京浜交通圏",
     "category": "交差点名",
     "difficulty": "normal"
-}
+},
+{"question":"この交差点名は？２","placeholderText":"【地図】尾上町","mapEmbedUrl":"https://maps.google.co.jp/maps?output=embed&q=35.44579535927248,139.6358278167801&t=m&hl=ja&z=17","options":["尾上町","長者町五丁目","羽衣町","馬車道"],"answer":"尾上町","region":"京浜交通圏","category":"交差点名","difficulty":"normal"}
 ]
