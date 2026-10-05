@@ -198,6 +198,7 @@
             setupButtonGroup(document.querySelectorAll('.difficulty-btn'), val => selectedDifficulty = val);
         });
 
+        // 共通のシャッフル機能
         function shuffleArray(array) {
             const shuffled = array.slice(); 
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -240,7 +241,6 @@
             let filteredQuestions = quizData.filter(q => {
                 const regionMatch = (selectedRegion === 'all' || q.region === selectedRegion);
                 
-                // 「地名・施設名」が選ばれた場合、古い「地名」データもまとめて対象にする
                 const categoryMatch = (selectedCategory === 'all' || 
                                        q.category === selectedCategory || 
                                        (selectedCategory === '地名・施設名' && q.category === '地名'));
@@ -254,6 +254,7 @@
                 return;
             }
 
+            // 問題順のシャッフル
             currentQuestions = shuffleArray(filteredQuestions);
             currentQuestionIndex = 0;
             score = 0;
@@ -286,8 +287,11 @@
                 mediaContainer.className = "w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center mb-6 border-2 border-dashed border-gray-400";
             }
             
+            // ★今回の変更点：選択肢をランダムにシャッフルする★
             answerSelect.innerHTML = '<option value="">▼ 選択してください</option>';
-            currentQ.options.forEach(option => {
+            const shuffledOptions = shuffleArray(currentQ.options);
+            
+            shuffledOptions.forEach(option => {
                 const optEl = document.createElement('option');
                 optEl.value = option;
                 optEl.textContent = option;
