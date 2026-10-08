@@ -613,31 +613,5 @@
         "region": "京浜交通圏",
         "category": "交差点名",
         "difficulty": "easy"
-    },
-    {
-        "question": "この交差点名は？",
-        "placeholderText": "【地図】",
-        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.4431,139.6453&t=m&hl=ja&z=17",
-        "options": [
-            "元町",
-            "星川",
-            "吉野町",
-            "鶴屋町"
-        ],
-        "answer": "元町",
-        "region": "京浜交通圏",
-        "category": "交差点名",
-        "difficulty": "normal"
-    },
-    {
-        "question": "この地名・施設名は？",
-        "placeholderText": "【画像】",
-        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.5292,139.6631&t=m&hl=ja&z=17",
-        "options": [
-            "三ツ池公園",
-            "パシフィコ横浜",
-            "クイーンズスクエア横浜",
-            "ズーラシア"
-        ],
-        "answer": "三ツ池公園",
-        "region": "京
+    }
+]
