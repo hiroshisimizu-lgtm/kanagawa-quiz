@@ -2,6 +2,66 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.55522054443344,139.60179185939708&t=m&hl=ja&z=17",
+        "options": [
+            "百石橋西側",
+            "東山田スポーツ会館前",
+            "向坂",
+            "のちめ不動前"
+        ],
+        "answer": "百石橋西側",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.57276501647191,139.61688328260448&t=m&hl=ja&z=17",
+        "options": [
+            "五反田橋",
+            "野川",
+            "能満寺",
+            "野川小学校入口"
+        ],
+        "answer": "野川",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.576697840399866,139.62727041707686&t=m&hl=ja&z=17",
+        "options": [
+            "千年",
+            "百年",
+            "万年",
+            "十年"
+        ],
+        "answer": "千年",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.612593663380146,139.59182057221884&t=m&hl=ja&z=17",
+        "options": [
+            "堰",
+            "久地駅前",
+            "多摩新町東名下",
+            "久地小学校入口"
+        ],
+        "answer": "堰",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.40455154742704,139.59446337128176&t=m&hl=ja&z=17",
         "options": [
             "港南警察署前",
