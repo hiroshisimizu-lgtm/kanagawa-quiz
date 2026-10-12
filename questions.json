@@ -2,6 +2,66 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46551248355555,139.58501958104566&t=m&hl=ja&z=17",
+        "options": [
+            "和田町",
+            "上星川",
+            "星川",
+            "天王町"
+        ],
+        "answer": "和田町",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.476271473527184,139.60197369408277&t=m&hl=ja&z=17",
+        "options": [
+            "市民病院入口",
+            "三ツ沢公園入口",
+            "第３京浜入り口",
+            "三ッ沢公園前"
+        ],
+        "answer": "三ツ沢公園入口",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.47517316180253,139.62285755589517&t=m&hl=ja&z=17",
+        "options": [
+            "反町駅前",
+            "松本町二丁目",
+            "泉町",
+            "栗田谷"
+        ],
+        "answer": "泉町",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.47244364306894,139.61899629484483&t=m&hl=ja&z=17",
+        "options": [
+            "泉町",
+            "松本町二丁目",
+            "鶴屋町３丁目",
+            "沢渡"
+        ],
+        "answer": "沢渡",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46908693892522,139.61887518720735&t=m&hl=ja&z=17",
         "options": [
             "二之橋前",
