@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.52821961655631,139.61279757158997&t=m&hl=ja&z=17",
+        "options": [
+            "庚申堀",
+            "新田小学校入口",
+            "新羽十字路",
+            "新羽駅東側"
+        ],
+        "answer": "新羽駅東側",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.55522054443344,139.60179185939708&t=m&hl=ja&z=17",
         "options": [
             "百石橋西側",
