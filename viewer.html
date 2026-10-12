@@ -136,3 +136,302 @@
                         </select>
                     </div>
                     <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">③ 難易度</label>
+                        <select id="form-difficulty" class="w-full border rounded-lg p-2 text-sm bg-white">
+                            <option value="easy">🌱 やさしい (easy)</option>
+                            <option value="normal">🌿 ふつう (normal)</option>
+                            <option value="hard">🌳 むずかしい (hard)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 選択肢4つ & 正解入力 -->
+                <div class="p-3 bg-gray-50 border rounded-lg space-y-2">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">選択肢（4つに入力し、正解と同じ文字列を「正解」項目に設定）</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="form-opt-0" required placeholder="選択肢 1" class="border rounded p-2 text-sm">
+                        <input type="text" id="form-opt-1" required placeholder="選択肢 2" class="border rounded p-2 text-sm">
+                        <input type="text" id="form-opt-2" required placeholder="選択肢 3" class="border rounded p-2 text-sm">
+                        <input type="text" id="form-opt-3" required placeholder="選択肢 4" class="border rounded p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-green-700 mt-2 mb-1">⭕ 正解（選択肢のどれか1つと完全一致させてください）</label>
+                        <input type="text" id="form-answer" required placeholder="例：尾上町" class="w-full border border-green-400 bg-green-50/50 rounded-lg p-2 text-sm font-bold text-green-900">
+                    </div>
+                </div>
+
+                <!-- 地図設定 -->
+                <div class="p-3 bg-blue-50/50 border border-blue-200 rounded-lg space-y-2">
+                    <label class="block text-xs font-bold text-blue-900">🗺️ 地図設定 (任意)</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500">緯度・経度 (例: 35.445795, 139.635827)</label>
+                            <input type="text" id="form-latlng" placeholder="35.445795, 139.635827" class="w-full border rounded p-1.5 text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500">直接埋め込みURL (mapEmbedUrl)</label>
+                            <input type="text" id="form-mapurl" placeholder="https://maps.google..." class="w-full border rounded p-1.5 text-xs">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500">プレースホルダーテキスト</label>
+                        <input type="text" id="form-placeholder" placeholder="【地図】" class="w-full border rounded p-1.5 text-xs">
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2 border-t">
+                    <button type="button" id="cancel-edit-btn" class="px-4 py-2 border rounded-lg text-sm font-bold hover:bg-gray-100">キャンセル</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-bold shadow">リストに反映保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 地図モーダル -->
+    <div id="map-modal" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl max-w-2xl w-full p-4 space-y-3 relative shadow-2xl">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 id="modal-title" class="font-bold text-gray-800"></h3>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-2xl font-bold px-2">&times;</button>
+            </div>
+            <div class="w-full h-80 bg-gray-100 rounded-lg overflow-hidden" id="modal-map-container"></div>
+        </div>
+    </div>
+
+    <script>
+        let allQuestions = [];
+
+        const tableBody = document.getElementById('table-body');
+        const searchInput = document.getElementById('search-input');
+        const regionSelect = document.getElementById('region-select');
+        const categorySelect = document.getElementById('category-select');
+        const difficultySelect = document.getElementById('difficulty-select');
+        
+        const totalCountEl = document.getElementById('total-count');
+        const filteredCountEl = document.getElementById('filtered-count');
+        const noDataMsg = document.getElementById('no-data-msg');
+
+        // 編集モーダル要素
+        const editModal = document.getElementById('edit-modal');
+        const editForm = document.getElementById('edit-form');
+        const modalFormTitle = document.getElementById('modal-form-title');
+        const editIndexInput = document.getElementById('edit-index');
+
+        // 地図モーダル要素
+        const mapModal = document.getElementById('map-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMapContainer = document.getElementById('modal-map-container');
+
+        async function init() {
+            try {
+                // キャッシュを無視して最新のJSONを読み込むための工夫 (?t=日付)
+                const timestamp = new Date().getTime();
+                const response = await fetch(`./questions.json?t=${timestamp}`);
+                if (!response.ok) throw new Error('読み込み失敗');
+                allQuestions = await response.json();
+                
+                totalCountEl.textContent = allQuestions.length;
+                renderTable();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function renderTable() {
+            const keyword = searchInput.value.toLowerCase().trim();
+            const region = regionSelect.value;
+            const category = categorySelect.value;
+            const difficulty = difficultySelect.value;
+
+            let displayedCount = 0;
+            tableBody.innerHTML = '';
+
+            allQuestions.forEach((q, originalIndex) => {
+                const matchKeyword = !keyword || 
+                    (q.question && q.question.toLowerCase().includes(keyword)) ||
+                    (q.answer && q.answer.toLowerCase().includes(keyword)) ||
+                    (q.options && q.options.some(opt => opt.toLowerCase().includes(keyword)));
+
+                const matchRegion = (region === 'all' || q.region === region);
+                const matchCategory = (category === 'all' || q.category === category || (category === '地名・施設名' && q.category === '地名'));
+                const matchDifficulty = (difficulty === 'all' || q.difficulty === difficulty);
+
+                if (matchKeyword && matchRegion && matchCategory && matchDifficulty) {
+                    displayedCount++;
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-blue-50/50 transition";
+
+                    let diffBadge = '';
+                    if (q.difficulty === 'easy') diffBadge = '<span class="px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700">やさしい</span>';
+                    else if (q.difficulty === 'normal') diffBadge = '<span class="px-2 py-0.5 rounded text-xs font-bold bg-yellow-100 text-yellow-700">ふつう</span>';
+                    else if (q.difficulty === 'hard') diffBadge = '<span class="px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-700">むずかしい</span>';
+
+                    const optionsHtml = q.options ? q.options.map(opt => {
+                        if (opt === q.answer) {
+                            return `<span class="inline-block bg-green-100 text-green-800 font-bold px-1.5 py-0.5 rounded border border-green-300">${opt}</span>`;
+                        }
+                        return `<span class="inline-block bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">${opt}</span>`;
+                    }).join(' ') : 'なし';
+
+                    tr.innerHTML = `
+                        <td class="p-3.5 text-center font-bold text-gray-400">${displayedCount}</td>
+                        <td class="p-3.5 font-bold text-gray-800">${q.question || ''}</td>
+                        <td class="p-3.5 font-black text-green-700">${q.answer || ''}</td>
+                        <td class="p-3.5 space-y-1">${optionsHtml}</td>
+                        <td class="p-3.5 whitespace-nowrap text-xs font-semibold text-gray-600">${q.region || '-'}</td>
+                        <td class="p-3.5 whitespace-nowrap text-xs font-semibold text-gray-600">${q.category || '-'}</td>
+                        <td class="p-3.5 whitespace-nowrap">${diffBadge}</td>
+                        <td class="p-3.5 text-center whitespace-nowrap space-x-1">
+                            ${q.mapEmbedUrl ? `<button onclick="openMap('\${q.question} - ${q.answer}', '${q.mapEmbedUrl}')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded font-bold transition">🗺️ 地図</button>` : ''}
+                            <button onclick="openEditModal(${originalIndex})" class="bg-amber-500 hover:bg-amber-600 text-white text-xs px-2.5 py-1 rounded font-bold transition">✏️ 編集</button>
+                            <button onclick="deleteQuestion(${originalIndex})" class="bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded font-bold transition">🗑️ 削除</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                }
+            });
+
+            filteredCountEl.textContent = displayedCount;
+            totalCountEl.textContent = allQuestions.length;
+
+            if (displayedCount === 0) {
+                noDataMsg.classList.remove('hidden');
+            } else {
+                noDataMsg.classList.add('hidden');
+            }
+        }
+
+        // 編集モーダルを開く
+        window.openEditModal = function(index) {
+            const q = allQuestions[index];
+            modalFormTitle.textContent = "問題の編集 (#" + (index + 1) + ")";
+            editIndexInput.value = index;
+
+            document.getElementById('form-question').value = q.question || '';
+            document.getElementById('form-region').value = q.region || '京浜交通圏';
+            document.getElementById('form-category').value = q.category === '地名' ? '地名・施設名' : (q.category || '交差点名');
+            document.getElementById('form-difficulty').value = q.difficulty || 'normal';
+
+            document.getElementById('form-opt-0').value = q.options ? (q.options[0] || '') : '';
+            document.getElementById('form-opt-1').value = q.options ? (q.options[1] || '') : '';
+            document.getElementById('form-opt-2').value = q.options ? (q.options[2] || '') : '';
+            document.getElementById('form-opt-3').value = q.options ? (q.options[3] || '') : '';
+            document.getElementById('form-answer').value = q.answer || '';
+
+            document.getElementById('form-latlng').value = '';
+            document.getElementById('form-mapurl').value = q.mapEmbedUrl || '';
+            document.getElementById('form-placeholder').value = q.placeholderText || '【地図】';
+
+            editModal.classList.remove('hidden');
+        };
+
+        // 新規追加モーダルを開く
+        document.getElementById('add-new-btn').addEventListener('click', () => {
+            modalFormTitle.textContent = "新規問題の追加";
+            editIndexInput.value = "-1";
+            editForm.reset();
+            document.getElementById('form-placeholder').value = "【地図】";
+            document.getElementById('form-region').value = '京浜交通圏';
+            document.getElementById('form-category').value = '交差点名';
+            document.getElementById('form-difficulty').value = 'normal';
+            editModal.classList.remove('hidden');
+        });
+
+        // 削除処理
+        window.deleteQuestion = function(index) {
+            const q = allQuestions[index];
+            if (confirm(`以下の問題を削除しますか？\n\n「${q.question} - 正解: ${q.answer}」`)) {
+                allQuestions.splice(index, 1);
+                renderTable();
+            }
+        };
+
+        // フォーム保存
+        editForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const idx = parseInt(editIndexInput.value);
+            const question = document.getElementById('form-question').value.trim();
+            const region = document.getElementById('form-region').value;
+            const category = document.getElementById('form-category').value;
+            const difficulty = document.getElementById('form-difficulty').value;
+
+            const opts = [
+                document.getElementById('form-opt-0').value.trim(),
+                document.getElementById('form-opt-1').value.trim(),
+                document.getElementById('form-opt-2').value.trim(),
+                document.getElementById('form-opt-3').value.trim(),
+            ];
+            const answer = document.getElementById('form-answer').value.trim();
+
+            if (!opts.includes(answer)) {
+                alert("❌ 「正解」に入力した文字列は、選択肢4つのうちいずれか1つと完全一致させてください。");
+                return;
+            }
+
+            const latlng = document.getElementById('form-latlng').value.trim();
+            let mapUrl = document.getElementById('form-mapurl').value.trim();
+            const placeholder = document.getElementById('form-placeholder').value.trim();
+
+            if (latlng) {
+                const cleanLatLng = latlng.replace(/\s+/g, '');
+                mapUrl = `https://maps.google.co.jp/maps?output=embed&q=${cleanLatLng}&t=m&hl=ja&z=17`;
+            }
+
+            const item = {
+                question: question,
+                placeholderText: placeholder || "【地図】",
+            };
+
+            if (mapUrl) item.mapEmbedUrl = mapUrl;
+
+            item.options = opts;
+            item.answer = answer;
+            item.region = region;
+            item.category = category;
+            item.difficulty = difficulty;
+
+            if (idx >= 0) {
+                allQuestions[idx] = item; // 編集更新
+            } else {
+                allQuestions.unshift(item); // 先頭に新規追加
+            }
+
+            editModal.classList.add('hidden');
+            renderTable();
+        });
+
+        // JSON一括コピー
+        document.getElementById('export-json-btn').addEventListener('click', () => {
+            if (allQuestions.length === 0) {
+                alert("問題データがありません。");
+                return;
+            }
+            const jsonText = JSON.stringify(allQuestions, null, 4);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                alert(`全 ${allQuestions.length} 件の最新JSONデータをクリップボードにコピーしました！\n\nGitHub の questions.json にそのまま上書き保存（Commit changes）してください。`);
+            }).catch(() => {
+                alert("コピーに失敗しました。手動でコピーしてください。");
+            });
+        });
+
+        // モーダル閉じる
+        document.getElementById('cancel-edit-btn').addEventListener('click', () => editModal.classList.add('hidden'));
+        document.getElementById('close-edit-modal').addEventListener('click', () => editModal.classList.add('hidden'));
+
+        window.openMap = function(title, url) {
+            modalTitle.textContent = title;
+            modalMapContainer.innerHTML = `<iframe src="${url}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`;
+            mapModal.classList.remove('hidden');
+        };
+
+        document.getElementById('close-modal').addEventListener('click', () => mapModal.classList.add('hidden'));
+
+        [searchInput, regionSelect, categorySelect, difficultySelect].forEach(el => {
+            el.addEventListener('input', renderTable);
+        });
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
