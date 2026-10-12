@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.45664598595564,139.60643210642968&t=m&hl=ja&z=17",
+        "options": [
+            "浜松町",
+            "洪福寺",
+            "宮田二丁目",
+            "西横浜駅入口"
+        ],
+        "answer": "洪福寺",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.45424661837879,139.61247843715&t=m&hl=ja&z=17",
         "options": [
             "浜松町",
