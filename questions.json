@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.51829897812363,139.6320435801133&t=m&hl=ja&z=17",
+        "options": [
+            "大豆戸",
+            "大倉山",
+            "区役所前",
+            "新菊名橋"
+        ],
+        "answer": "大豆戸",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.50191406558041,139.60856221547374&t=m&hl=ja&z=17",
+        "options": [
+            "鳥山東",
+            "岸根高校入口",
+            "岸根",
+            "新横浜駅入口"
+        ],
+        "answer": "岸根",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.50894675020594,139.61735274975138&t=m&hl=ja&z=17",
         "options": [
             "新横浜歩道橋",
