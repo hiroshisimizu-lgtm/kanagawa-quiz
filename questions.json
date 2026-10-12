@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.43075184418774,139.6205493294435&t=m&hl=ja&z=17",
+        "options": [
+            "中村橋",
+            "吉野橋",
+            "睦橋",
+            "駿河橋"
+        ],
+        "answer": "中村橋",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.50304444718541,139.64264513717043&t=m&hl=ja&z=17",
         "options": [
             "内路（うちろ）",
