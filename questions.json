@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.471012296396594,139.62639927402563&t=m&hl=ja&z=17",
+        "options": [
+            "青木橋",
+            "栄町",
+            "青木通",
+            "金港町"
+        ],
+        "answer": "青木橋",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.4818513404781,139.63621901924242&t=m&hl=ja&z=17",
         "options": [
             "済生会病院前",
