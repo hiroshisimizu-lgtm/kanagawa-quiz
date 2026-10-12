@@ -2,6 +2,81 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.50304444718541,139.64264513717043&t=m&hl=ja&z=17",
+        "options": [
+            "内路（うちろ）",
+            "内路（ないじ）",
+            "内路（うつろ）",
+            "内路（ないろ）"
+        ],
+        "answer": "内路（うつろ）",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.58201945654704,139.65077408491086&t=m&hl=ja&z=17",
+        "options": [
+            "西明寺",
+            "小杉陣屋町",
+            "小杉御殿町",
+            "小杉十字路"
+        ],
+        "answer": "小杉十字路",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.43242708062374,139.60253045703666&t=m&hl=ja&z=17",
+        "options": [
+            "井土ヶ谷駅前",
+            "南センター入口",
+            "井土ヶ谷",
+            "南郵便局前"
+        ],
+        "answer": "井土ヶ谷",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.41461171819309,139.54232984095017&t=m&hl=ja&z=17",
+        "options": [
+            "不動坂",
+            "大山跨線橋北側",
+            "王子神社前",
+            "舞岡入口"
+        ],
+        "answer": "不動坂",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.42573746502867,139.56941535813172&t=m&hl=ja&z=17",
+        "options": [
+            "こども医療センター入口",
+            "平戸小入口",
+            "山谷",
+            "平和台"
+        ],
+        "answer": "山谷",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.51829897812363,139.6320435801133&t=m&hl=ja&z=17",
         "options": [
             "大豆戸",
