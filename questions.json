@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46908693892522,139.61887518720735&t=m&hl=ja&z=17",
+        "options": [
+            "二之橋前",
+            "鶴屋町２丁目",
+            "鶴屋町３丁目",
+            "台町入口"
+        ],
+        "answer": "鶴屋町３丁目",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46540977464195,139.6120537503932&t=m&hl=ja&z=17",
         "options": [
             "浅間下",
