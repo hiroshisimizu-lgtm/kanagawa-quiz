@@ -2,6 +2,51 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.521017275282205,139.59102227487966&t=m&hl=ja&z=17",
+        "options": [
+            "東方町",
+            "折本交番",
+            "第三京浜入口",
+            "小机大橋北側"
+        ],
+        "answer": "第三京浜入口",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.52735479088166,139.62129322463937&t=m&hl=ja&z=17",
+        "options": [
+            "新羽橋東側",
+            "太尾住宅入口",
+            "港北高校入口",
+            "太尾堤"
+        ],
+        "answer": "太尾堤",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.53163536764941,139.63465721175393&t=m&hl=ja&z=17",
+        "options": [
+            "綱島",
+            "樽町",
+            "駒岡町",
+            "大曽根"
+        ],
+        "answer": "樽町",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.533034436458195,139.63469902044653&t=m&hl=ja&z=17",
         "options": [
             "綱島",
