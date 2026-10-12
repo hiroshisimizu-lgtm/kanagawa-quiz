@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.533034436458195,139.63469902044653&t=m&hl=ja&z=17",
+        "options": [
+            "綱島",
+            "樽町",
+            "大綱橋",
+            "菖蒲園前"
+        ],
+        "answer": "大綱橋",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.52821961655631,139.61279757158997&t=m&hl=ja&z=17",
         "options": [
             "庚申堀",
