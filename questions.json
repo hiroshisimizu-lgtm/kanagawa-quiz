@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.50894675020594,139.61735274975138&t=m&hl=ja&z=17",
+        "options": [
+            "新横浜歩道橋",
+            "新横浜駅入口",
+            "新横浜駅前",
+            "太尾新道入口"
+        ],
+        "answer": "新横浜駅入口",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.486917873744986,139.62562309421276&t=m&hl=ja&z=17",
         "options": [
             "白楽公園入口",
