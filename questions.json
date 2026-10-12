@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.50854258524019,139.58991127595854&t=m&hl=ja&z=17",
+        "options": [
+            "新川向橋",
+            "小机駅東側",
+            "泉谷寺",
+            "道路碑"
+        ],
+        "answer": "泉谷寺",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.521017275282205,139.59102227487966&t=m&hl=ja&z=17",
         "options": [
             "東方町",
