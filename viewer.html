@@ -11,21 +11,23 @@
     <header class="max-w-7xl mx-auto mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <div>
             <h1 class="text-2xl font-bold text-gray-900">🗺️ 問題データ エディタ & ビューア</h1>
-            <p class="text-sm text-gray-500 mt-1">表上で問題を直接編集・追加・削除し、JSONを書き出せます</p>
+            <p class="text-sm text-gray-500 mt-1">編集したデータをGitHubに自動で上書き保存します</p>
         </div>
         
         <div class="flex flex-wrap items-center gap-3">
             <button id="add-new-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-lg font-bold text-sm shadow transition flex items-center gap-1">
                 ➕ 新規問題を追加
             </button>
-            <button id="export-json-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-bold text-sm shadow transition flex items-center gap-1">
-                💾 編集後のJSONをコピー
+            <button id="auto-save-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-bold text-sm shadow transition flex items-center gap-1">
+                ☁️ GitHubに自動保存 (反映)
+            </button>
+            <button id="reset-token-btn" class="text-gray-400 hover:text-gray-600 px-2 text-xs underline">
+                鍵の再設定
             </button>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto space-y-6">
-
         <!-- 件数 & 検索・フィルターエリア -->
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 space-y-4">
             <div class="flex justify-between items-center border-b pb-3 text-sm">
@@ -34,13 +36,10 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <!-- 検索 -->
                 <div>
                     <label class="block text-xs font-bold text-gray-600 mb-1">🔍 検索</label>
                     <input type="text" id="search-input" placeholder="問題文・正解・選択肢で検索..." class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500">
                 </div>
-
-                <!-- 交通圏 -->
                 <div>
                     <label class="block text-xs font-bold text-gray-600 mb-1">① 交通圏</label>
                     <select id="region-select" class="w-full border rounded-lg p-2 text-sm bg-white focus:ring-2 focus:ring-blue-500">
@@ -50,8 +49,6 @@
                         <option value="小田原交通圏">小田原交通圏</option>
                     </select>
                 </div>
-
-                <!-- ジャンル -->
                 <div>
                     <label class="block text-xs font-bold text-gray-600 mb-1">② ジャンル</label>
                     <select id="category-select" class="w-full border rounded-lg p-2 text-sm bg-white focus:ring-2 focus:ring-blue-500">
@@ -61,8 +58,6 @@
                         <option value="道路名">道路名</option>
                     </select>
                 </div>
-
-                <!-- 難易度 -->
                 <div>
                     <label class="block text-xs font-bold text-gray-600 mb-1">③ 難易度</label>
                     <select id="difficulty-select" class="w-full border rounded-lg p-2 text-sm bg-white focus:ring-2 focus:ring-blue-500">
@@ -91,15 +86,13 @@
                             <th class="p-3.5 text-center whitespace-nowrap">操作・確認</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body" class="divide-y divide-gray-200 text-sm">
-                    </tbody>
+                    <tbody id="table-body" class="divide-y divide-gray-200 text-sm"></tbody>
                 </table>
             </div>
             <div id="no-data-msg" class="hidden p-8 text-center text-gray-400 font-bold">
                 条件に該当する問題が見つかりません。
             </div>
         </div>
-
     </main>
 
     <!-- 編集・追加モーダル -->
@@ -112,12 +105,10 @@
 
             <form id="edit-form" class="space-y-4">
                 <input type="hidden" id="edit-index">
-
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">問題文</label>
                     <input type="text" id="form-question" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500">
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-gray-700 mb-1">① 交通圏</label>
@@ -145,7 +136,6 @@
                     </div>
                 </div>
 
-                <!-- 選択肢4つ & 正解入力 -->
                 <div class="p-3 bg-gray-50 border rounded-lg space-y-2">
                     <label class="block text-xs font-bold text-gray-700 mb-1">選択肢（4つに入力し、正解と同じ文字列を「正解」項目に設定）</label>
                     <div class="grid grid-cols-2 gap-2">
@@ -160,7 +150,6 @@
                     </div>
                 </div>
 
-                <!-- 地図設定 -->
                 <div class="p-3 bg-blue-50/50 border border-blue-200 rounded-lg space-y-2">
                     <label class="block text-xs font-bold text-blue-900">🗺️ 地図設定 (任意)</label>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -181,7 +170,7 @@
 
                 <div class="flex justify-end gap-2 pt-2 border-t">
                     <button type="button" id="cancel-edit-btn" class="px-4 py-2 border rounded-lg text-sm font-bold hover:bg-gray-100">キャンセル</button>
-                    <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-bold shadow">リストに反映保存</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-bold shadow">リストに反映</button>
                 </div>
             </form>
         </div>
@@ -199,7 +188,13 @@
     </div>
 
     <script>
+        // 【重要設定】あなたのGitHub情報を入力してください
+        const GITHUB_USERNAME = "hiroshisimizu-lgtm"; // アカウント名
+        const REPO_NAME = "kanagawa-quiz";          // リポジトリ名
+        const FILE_PATH = "questions.json";         // 保存先ファイル名
+
         let allQuestions = [];
+        let fileSha = ""; // 上書き保存に必要なファイルのバージョン情報
 
         const tableBody = document.getElementById('table-body');
         const searchInput = document.getElementById('search-input');
@@ -211,22 +206,25 @@
         const filteredCountEl = document.getElementById('filtered-count');
         const noDataMsg = document.getElementById('no-data-msg');
 
-        // 編集モーダル要素
         const editModal = document.getElementById('edit-modal');
         const editForm = document.getElementById('edit-form');
         const modalFormTitle = document.getElementById('modal-form-title');
         const editIndexInput = document.getElementById('edit-index');
 
-        // 地図モーダル要素
         const mapModal = document.getElementById('map-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalMapContainer = document.getElementById('modal-map-container');
 
+        // 文字列をBase64にエンコードする関数（日本語対応）
+        function utf8_to_b64(str) {
+            return window.btoa(unescape(encodeURIComponent(str)));
+        }
+
         async function init() {
             try {
-                // キャッシュを無視して最新のJSONを読み込むための工夫 (?t=日付)
+                // 最新データの読み込み
                 const timestamp = new Date().getTime();
-                const response = await fetch(`./questions.json?t=${timestamp}`);
+                const response = await fetch(`./${FILE_PATH}?t=${timestamp}`);
                 if (!response.ok) throw new Error('読み込み失敗');
                 allQuestions = await response.json();
                 
@@ -301,7 +299,6 @@
             }
         }
 
-        // 編集モーダルを開く
         window.openEditModal = function(index) {
             const q = allQuestions[index];
             modalFormTitle.textContent = "問題の編集 (#" + (index + 1) + ")";
@@ -325,7 +322,6 @@
             editModal.classList.remove('hidden');
         };
 
-        // 新規追加モーダルを開く
         document.getElementById('add-new-btn').addEventListener('click', () => {
             modalFormTitle.textContent = "新規問題の追加";
             editIndexInput.value = "-1";
@@ -337,16 +333,14 @@
             editModal.classList.remove('hidden');
         });
 
-        // 削除処理
         window.deleteQuestion = function(index) {
             const q = allQuestions[index];
-            if (confirm(`以下の問題を削除しますか？\n\n「${q.question} - 正解: ${q.answer}」`)) {
+            if (confirm(`以下の問題を削除しますか？\n\n「${q.question} - 正解: ${q.answer}」\n\n※この時点ではまだ保存されていません。右上の「☁️ 自動保存」ボタンを押すと確定します。`)) {
                 allQuestions.splice(index, 1);
                 renderTable();
             }
         };
 
-        // フォーム保存
         editForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -392,27 +386,108 @@
             item.difficulty = difficulty;
 
             if (idx >= 0) {
-                allQuestions[idx] = item; // 編集更新
+                allQuestions[idx] = item;
             } else {
-                allQuestions.unshift(item); // 先頭に新規追加
+                allQuestions.unshift(item);
             }
 
             editModal.classList.add('hidden');
             renderTable();
+            
+            // ユーザーに自動保存ボタンを押すよう促す
+            const autoSaveBtn = document.getElementById('auto-save-btn');
+            autoSaveBtn.classList.add('animate-pulse', 'bg-red-500');
+            autoSaveBtn.classList.remove('bg-blue-600');
+            autoSaveBtn.textContent = '☁️ 変更あり: クリックしてGitHubに保存';
         });
 
-        // JSON一括コピー
-        document.getElementById('export-json-btn').addEventListener('click', () => {
+        // ==========================================
+        // GitHub API による自動保存機能
+        // ==========================================
+        document.getElementById('auto-save-btn').addEventListener('click', async () => {
             if (allQuestions.length === 0) {
                 alert("問題データがありません。");
                 return;
             }
-            const jsonText = JSON.stringify(allQuestions, null, 4);
-            navigator.clipboard.writeText(jsonText).then(() => {
-                alert(`全 ${allQuestions.length} 件の最新JSONデータをクリップボードにコピーしました！\n\nGitHub の questions.json にそのまま上書き保存（Commit changes）してください。`);
-            }).catch(() => {
-                alert("コピーに失敗しました。手動でコピーしてください。");
-            });
+
+            // 1. 合鍵（トークン）がブラウザに保存されているかチェック
+            let token = localStorage.getItem('github_token');
+            if (!token) {
+                token = prompt("GitHubに自動保存するための「合鍵（Personal Access Token）」を入力してください。\n(ghp_ から始まる文字列)\n※このパスワードはあなたのブラウザ内のみに安全に保存されます。");
+                if (!token) return; // キャンセル時
+                localStorage.setItem('github_token', token);
+            }
+
+            const btn = document.getElementById('auto-save-btn');
+            btn.textContent = '⏳ 保存中...';
+            btn.disabled = true;
+
+            const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
+
+            try {
+                // 2. 現在のファイルのバージョン情報 (sha) を取得する
+                const getRes = await fetch(apiUrl, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                
+                if (getRes.status === 401 || getRes.status === 403) {
+                    throw new Error("鍵（トークン）が間違っているか、権限がありません。再設定してください。");
+                }
+                
+                let sha = "";
+                if (getRes.ok) {
+                    const fileData = await getRes.json();
+                    sha = fileData.sha;
+                }
+
+                // 3. 最新のJSONを Base64 に変換して上書き保存 (PUT)
+                const jsonText = JSON.stringify(allQuestions, null, 4);
+                const encodedContent = utf8_to_b64(jsonText);
+
+                const putData = {
+                    message: "viewer.html から問題を更新・追加しました",
+                    content: encodedContent,
+                    sha: sha
+                };
+
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(putData)
+                });
+
+                if (!putRes.ok) {
+                    const errObj = await putRes.json();
+                    throw new Error(errObj.message || '保存に失敗しました');
+                }
+
+                // 成功時の処理
+                alert(`✨ 成功！\n全 ${allQuestions.length} 件のデータが GitHub (questions.json) に自動で上書き保存されました。\n\n※実際のクイズ画面に反映されるまで1〜2分かかります。`);
+                
+                // ボタンを通常状態に戻す
+                btn.classList.remove('animate-pulse', 'bg-red-500');
+                btn.classList.add('bg-blue-600');
+                btn.textContent = '☁️ GitHubに自動保存 (反映)';
+
+            } catch (error) {
+                alert(`❌ エラー発生: ${error.message}`);
+                // エラーが出た場合、念のためクリップボードにもコピーしておく親切設計
+                const jsonText = JSON.stringify(allQuestions, null, 4);
+                navigator.clipboard.writeText(jsonText).then(() => {
+                    alert("保存に失敗したため、代用としてクリップボードにデータをコピーしました。手動でGitHubに貼り付けて保存してください。");
+                });
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        // トークンをリセットする機能
+        document.getElementById('reset-token-btn').addEventListener('click', () => {
+            localStorage.removeItem('github_token');
+            alert("ブラウザに記憶していた合鍵（トークン）を削除しました。\n次回保存時に再度入力を求められます。");
         });
 
         // モーダル閉じる
