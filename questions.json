@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.4818513404781,139.63621901924242&t=m&hl=ja&z=17",
+        "options": [
+            "済生会病院前",
+            "浦島小入口",
+            "立町",
+            "浦島丘"
+        ],
+        "answer": "立町",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.480162549308446,139.63187753583384&t=m&hl=ja&z=17",
+        "options": [
+            "東神奈川",
+            "西神奈川",
+            "南神奈川",
+            "北神奈川"
+        ],
+        "answer": "西神奈川",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.46551248355555,139.58501958104566&t=m&hl=ja&z=17",
         "options": [
             "和田町",
