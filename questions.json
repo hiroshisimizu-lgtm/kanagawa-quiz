@@ -2,6 +2,81 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.446163294644954,139.64371228915618&t=m&hl=ja&z=17",
+        "options": [
+            "大さん橋入口",
+            "港郵便局前",
+            "開港広場前",
+            "中区役所前"
+        ],
+        "answer": "大さん橋入口",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44858150670518,139.64250257570657&t=m&hl=ja&z=17",
+        "options": [
+            "横浜開港資料館",
+            "横浜税関",
+            "県庁前",
+            "開港広場前"
+        ],
+        "answer": "横浜税関",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.453839836081464,139.64052181389982&t=m&hl=ja&z=17",
+        "options": [
+            "カップヌードルパーク入口",
+            "サークルウォーク",
+            "万国橋",
+            "赤レンガ倉庫"
+        ],
+        "answer": "サークルウォーク",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.45253045259732,139.62913266276266&t=m&hl=ja&z=17",
+        "options": [
+            "紅葉坂",
+            "雪見橋",
+            "桜木町駅前",
+            "けやき通り西"
+        ],
+        "answer": "紅葉坂",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44706626073105,139.63090006178209&t=m&hl=ja&z=17",
+        "options": [
+            "桜川橋南",
+            "西公園前",
+            "長者橋",
+            "都橋"
+        ],
+        "answer": "都橋",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.447858979421724,139.62873983787452&t=m&hl=ja&z=17",
         "options": [
             "野毛坂",
