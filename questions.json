@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.413384594841794,139.60847707935733&t=m&hl=ja&z=17",
+        "options": [
+            "浜小学校前",
+            "岡村天満宮前",
+            "笹堀",
+            "岡村中学校前"
+        ],
+        "answer": "笹堀",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.41711951017203,139.59872104245375&t=m&hl=ja&z=17",
+        "options": [
+            "最戸橋",
+            "旧道入口",
+            "向田橋",
+            "南警察署前"
+        ],
+        "answer": "向田橋",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.40100206693574,139.52756099323022&t=m&hl=ja&z=17",
         "options": [
             "矢沢",
@@ -11,7 +41,7 @@
         ],
         "answer": "矢沢",
         "region": "京浜交通圏",
-        "category": "駅名・路線名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
@@ -26,7 +56,7 @@
         ],
         "answer": "Ｙ校前",
         "region": "京浜交通圏",
-        "category": "駅名・路線名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
@@ -41,7 +71,7 @@
         ],
         "answer": "深谷",
         "region": "京浜交通圏",
-        "category": "駅名・路線名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
@@ -56,7 +86,7 @@
         ],
         "answer": "原宿",
         "region": "京浜交通圏",
-        "category": "駅名・路線名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
@@ -71,7 +101,7 @@
         ],
         "answer": "和泉坂上",
         "region": "京浜交通圏",
-        "category": "駅名・路線名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
