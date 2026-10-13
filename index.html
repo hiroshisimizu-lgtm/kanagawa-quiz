@@ -125,7 +125,19 @@
         <p>&copy; 2026 第4期地理研究委員会 (サンプル)</p>
     </footer>
 
-    <script>
+<script>
+        // ==========================================
+        // 【管理者用】公開設定スイッチ
+        // ==========================================
+        // 公開（ボタンを白色にして選択可能）にしたい項目だけを ' ' の中に書いてください。
+        // ここから名前を消した項目は、問題データが存在しても強制的にグレーアウトされます。
+        const ACTIVE_SETTINGS = {
+            regions: ['京浜交通圏', '県央交通圏', '小田原交通圏'], // 交通圏
+            categories: ['地名・施設名', '交差点名', '駅名・路線名'], // ジャンル（※例：道路名を非公開にしています）
+            difficulties: ['easy', 'normal', 'hard'] // 難易度
+        };
+        // ==========================================
+
         let quizData = []; 
         let currentQuestions = [];
         let currentQuestionIndex = 0;
@@ -158,18 +170,60 @@
 
         function setupButtonGroup(buttons, onChange) {
             buttons.forEach(btn => {
-                if (btn.classList.contains('active')) btn.classList.add(...ACTIVE_CLASSES);
-                else btn.classList.add(...INACTIVE_CLASSES);
+                if (btn.classList.contains('active') && !btn.disabled) {
+                    btn.classList.add(...ACTIVE_CLASSES);
+                } else if (!btn.disabled) {
+                    btn.classList.add(...INACTIVE_CLASSES);
+                }
 
                 btn.addEventListener('click', () => {
+                    if (btn.disabled) return; 
                     buttons.forEach(b => {
-                        b.classList.remove('active', ...ACTIVE_CLASSES);
-                        b.classList.add(...INACTIVE_CLASSES);
+                        if(!b.disabled){
+                            b.classList.remove('active', ...ACTIVE_CLASSES);
+                            b.classList.add(...INACTIVE_CLASSES);
+                        }
                     });
                     btn.classList.remove(...INACTIVE_CLASSES);
                     btn.classList.add('active', ...ACTIVE_CLASSES);
                     onChange(btn.dataset.value);
                 });
+            });
+        }
+
+        // ★管理者設定に基づいてボタンをON/OFFする機能
+        function applyAdminSettings() {
+            // 交通圏の制御
+            document.querySelectorAll('.region-btn').forEach(btn => {
+                const val = btn.dataset.value;
+                if (val !== 'all' && !ACTIVE_SETTINGS.regions.includes(val)) {
+                    btn.disabled = true;
+                    btn.classList.remove(...ACTIVE_CLASSES, ...INACTIVE_CLASSES, 'active');
+                    btn.title = "現在このエリアは準備中です（非公開）";
+                }
+            });
+
+            // ジャンルの制御
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                const val = btn.dataset.value;
+                // ※データ側の表記ゆれ（地名）にも対応
+                const checkVal = val === '地名・施設名' ? '地名' : val;
+                
+                if (val !== 'all' && !ACTIVE_SETTINGS.categories.includes(val) && !ACTIVE_SETTINGS.categories.includes(checkVal)) {
+                    btn.disabled = true;
+                    btn.classList.remove(...ACTIVE_CLASSES, ...INACTIVE_CLASSES, 'active');
+                    btn.title = "現在このジャンルは準備中です（非公開）";
+                }
+            });
+
+            // 難易度の制御
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                const val = btn.dataset.value;
+                if (val !== 'all' && !ACTIVE_SETTINGS.difficulties.includes(val)) {
+                    btn.disabled = true;
+                    btn.classList.remove(...ACTIVE_CLASSES, ...INACTIVE_CLASSES, 'active');
+                    btn.title = "現在この難易度は準備中です（非公開）";
+                }
             });
         }
 
@@ -179,6 +233,9 @@
                 const response = await fetch(`./questions.json?t=${timestamp}`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 quizData = await response.json(); 
+                
+                // データ読み込み後に管理者設定を適用
+                applyAdminSettings();
                 
                 startBtn.disabled = false;
                 startBtn.textContent = 'クイズを開始する';
@@ -267,17 +324,13 @@
             
             const mediaContainer = document.getElementById('media-placeholder');
             
-            // ★画像があるか、地図があるか判定する機能★
             if (currentQ.imageUrl) {
-                // 画像表示
                 mediaContainer.innerHTML = `<img src="${currentQ.imageUrl}" alt="問題画像" class="w-full h-full object-contain rounded-lg bg-gray-100">`;
                 mediaContainer.className = "w-full h-64 md:h-80 rounded-lg mb-6 overflow-hidden shadow-inner border border-gray-300";
             } else if (currentQ.mapEmbedUrl) {
-                // 地図表示
                 mediaContainer.innerHTML = `<iframe src="${currentQ.mapEmbedUrl}" width="100%" height="100%" style="border:0; border-radius: 0.5rem;" allowfullscreen="" loading="lazy"></iframe>`;
                 mediaContainer.className = "w-full h-64 md:h-80 bg-gray-200 rounded-lg mb-6 overflow-hidden shadow-inner";
             } else {
-                // 文字だけ表示
                 mediaContainer.innerHTML = `<span id="placeholder-text" class="text-gray-500 font-medium">${currentQ.placeholderText || '画像がありません'}</span>`;
                 mediaContainer.className = "w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center mb-6 border-2 border-dashed border-gray-400";
             }
