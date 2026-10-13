@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.447858979421724,139.62873983787452&t=m&hl=ja&z=17",
+        "options": [
+            "野毛坂",
+            "日ノ出町",
+            "野毛３丁目",
+            "宮川町３丁目"
+        ],
+        "answer": "野毛３丁目",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.45023261562372,139.6310151082481&t=m&hl=ja&z=17",
+        "options": [
+            "花咲町二丁目",
+            "桜木町一丁目",
+            "桜木町駅前",
+            "桜木町二丁目"
+        ],
+        "answer": "桜木町二丁目",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44995975961475,139.63051646324604&t=m&hl=ja&z=17",
         "options": [
             "桜木町二丁目",
