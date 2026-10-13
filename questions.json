@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44414026805559,139.64802960675522&t=m&hl=ja&z=17",
+        "options": [
+            "中華街東門",
+            "中華街西門",
+            "中華街南門",
+            "中華街北門"
+        ],
+        "answer": "中華街東門",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.446163294644954,139.64371228915618&t=m&hl=ja&z=17",
         "options": [
             "大さん橋入口",
