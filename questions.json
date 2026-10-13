@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.506892041422965,139.6022015108202&t=m&hl=ja&z=17",
+        "options": [
+            "多目的遊水地",
+            "小机駅東側",
+            "小机土井谷戸",
+            "三会寺入口"
+        ],
+        "answer": "小机駅東側",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.47563579205905,139.63060546316095&t=m&hl=ja&z=17",
         "options": [
             "滝の橋",
