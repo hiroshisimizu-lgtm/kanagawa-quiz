@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.47563579205905,139.63060546316095&t=m&hl=ja&z=17",
+        "options": [
+            "滝の橋",
+            "二ツ谷",
+            "神奈川署前",
+            "桐畑"
+        ],
+        "answer": "二ツ谷",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.47519890325926,139.62626258742716&t=m&hl=ja&z=17",
+        "options": [
+            "泉町",
+            "沢渡",
+            "広台太田",
+            "反町"
+        ],
+        "answer": "反町",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.456833952745846,139.61802323238152&t=m&hl=ja&z=17",
         "options": [
             "西平沼",
