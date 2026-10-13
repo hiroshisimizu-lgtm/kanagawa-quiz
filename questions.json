@@ -2,6 +2,51 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.417405068593624,139.5384977895102&t=m&hl=ja&z=17",
+        "options": [
+            "富士橋",
+            "大山跨線橋北側",
+            "資源循環局入口",
+            "かもめ橋"
+        ],
+        "answer": "富士橋",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.45428611919557,139.5206283344902&t=m&hl=ja&z=17",
+        "options": [
+            "さちが丘小下",
+            "柏町",
+            "桃源台",
+            "善部小学校入口"
+        ],
+        "answer": "桃源台",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.42828851510367,139.5161137198421&t=m&hl=ja&z=17",
+        "options": [
+            "岡津橋",
+            "新橋",
+            "下新橋",
+            "新橋町西田橋"
+        ],
+        "answer": "新橋町西田橋",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【地図】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44414026805559,139.64802960675522&t=m&hl=ja&z=17",
         "options": [
             "中華街東門",
