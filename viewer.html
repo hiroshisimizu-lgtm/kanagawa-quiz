@@ -28,7 +28,6 @@
     </header>
 
     <main class="max-w-7xl mx-auto space-y-6">
-        <!-- 件数 & 検索・フィルターエリア -->
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 space-y-4">
             <div class="flex justify-between items-center border-b pb-3 text-sm">
                 <span class="font-bold text-gray-600">全問題数: <span id="total-count" class="text-blue-600 text-lg font-black">0</span> 件</span>
@@ -49,7 +48,6 @@
                         <option value="小田原交通圏">小田原交通圏</option>
                     </select>
                 </div>
-              <!-- ジャンル -->
                 <div>
                     <label class="block text-xs font-bold text-gray-600 mb-1">② ジャンル</label>
                     <select id="category-select" class="w-full border rounded-lg p-2 text-sm bg-white focus:ring-2 focus:ring-blue-500">
@@ -72,7 +70,6 @@
             </div>
         </div>
 
-        <!-- テーブル -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -120,7 +117,7 @@
                             <option value="小田原交通圏">小田原交通圏</option>
                         </select>
                     </div>
-                   <div>
+                    <div>
                         <label class="block text-xs font-bold text-gray-700 mb-1">② ジャンル</label>
                         <select id="form-category" class="w-full border rounded-lg p-2 text-sm bg-white">
                             <option value="地名・施設名">地名・施設名</option>
@@ -154,20 +151,24 @@
                 </div>
 
                 <div class="p-3 bg-blue-50/50 border border-blue-200 rounded-lg space-y-2">
-                    <label class="block text-xs font-bold text-blue-900">🗺️ 地図設定 (任意)</label>
+                    <label class="block text-xs font-bold text-blue-900">🗺️ 地図・画像設定 (いずれか設定)</label>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold text-gray-500">緯度・経度 (例: 35.445795, 139.635827)</label>
+                            <label class="block text-[10px] font-bold text-gray-500">緯度・経度 (自動で地図URLに変換)</label>
                             <input type="text" id="form-latlng" placeholder="35.445795, 139.635827" class="w-full border rounded p-1.5 text-xs">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-gray-500">直接埋め込みURL (mapEmbedUrl)</label>
+                            <label class="block text-[10px] font-bold text-gray-500">地図URL (mapEmbedUrl)</label>
                             <input type="text" id="form-mapurl" placeholder="https://maps.google..." class="w-full border rounded p-1.5 text-xs">
                         </div>
                     </div>
                     <div>
+                        <label class="block text-[10px] font-bold text-green-700">🖼️ 画像URL (imageUrl) ※設定すると地図より優先表示されます</label>
+                        <input type="text" id="form-imageurl" placeholder="https://... などのネット上のURL" class="w-full border border-green-400 rounded p-1.5 text-xs focus:ring-green-500">
+                    </div>
+                    <div>
                         <label class="block text-[10px] font-bold text-gray-500">プレースホルダーテキスト</label>
-                        <input type="text" id="form-placeholder" placeholder="【地図】" class="w-full border rounded p-1.5 text-xs">
+                        <input type="text" id="form-placeholder" placeholder="【画像】" class="w-full border rounded p-1.5 text-xs">
                     </div>
                 </div>
 
@@ -179,25 +180,24 @@
         </div>
     </div>
 
-    <!-- 地図モーダル -->
+    <!-- 地図・画像モーダル -->
     <div id="map-modal" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl max-w-2xl w-full p-4 space-y-3 relative shadow-2xl">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 id="modal-title" class="font-bold text-gray-800"></h3>
                 <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-2xl font-bold px-2">&times;</button>
             </div>
-            <div class="w-full h-80 bg-gray-100 rounded-lg overflow-hidden" id="modal-map-container"></div>
+            <div class="w-full h-80 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center" id="modal-map-container"></div>
         </div>
     </div>
 
     <script>
-        // 【重要設定】あなたのGitHub情報を入力してください
-        const GITHUB_USERNAME = "hiroshisimizu-lgtm"; // アカウント名
-        const REPO_NAME = "kanagawa-quiz";          // リポジトリ名
-        const FILE_PATH = "questions.json";         // 保存先ファイル名
+        const GITHUB_USERNAME = "hiroshisimizu-lgtm";
+        const REPO_NAME = "kanagawa-quiz";
+        const FILE_PATH = "questions.json";
 
         let allQuestions = [];
-        let fileSha = ""; // 上書き保存に必要なファイルのバージョン情報
+        let fileSha = "";
 
         const tableBody = document.getElementById('table-body');
         const searchInput = document.getElementById('search-input');
@@ -218,14 +218,12 @@
         const modalTitle = document.getElementById('modal-title');
         const modalMapContainer = document.getElementById('modal-map-container');
 
-        // 文字列をBase64にエンコードする関数（日本語対応）
         function utf8_to_b64(str) {
             return window.btoa(unescape(encodeURIComponent(str)));
         }
 
         async function init() {
             try {
-                // 最新データの読み込み
                 const timestamp = new Date().getTime();
                 const response = await fetch(`./${FILE_PATH}?t=${timestamp}`);
                 if (!response.ok) throw new Error('読み込み失敗');
@@ -268,11 +266,19 @@
                     else if (q.difficulty === 'hard') diffBadge = '<span class="px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-700">むずかしい</span>';
 
                     const optionsHtml = q.options ? q.options.map(opt => {
-                        if (opt === q.answer) {
-                            return `<span class="inline-block bg-green-100 text-green-800 font-bold px-1.5 py-0.5 rounded border border-green-300">${opt}</span>`;
-                        }
+                        if (opt === q.answer) return `<span class="inline-block bg-green-100 text-green-800 font-bold px-1.5 py-0.5 rounded border border-green-300">${opt}</span>`;
                         return `<span class="inline-block bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">${opt}</span>`;
                     }).join(' ') : 'なし';
+
+                    // 画像か地図かの判定
+                    let mediaBtn = '';
+                    if (q.imageUrl) {
+                        mediaBtn = `<button onclick="openImage('${q.imageUrl}')" class="bg-green-100 hover:bg-green-200 text-green-800 text-xs px-2 py-1 rounded font-bold transition">🖼️ 画像</button>`;
+                    } else if (q.mapEmbedUrl) {
+                        mediaBtn = `<button onclick="openMap('${q.question}', '${q.mapEmbedUrl}')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded font-bold transition">🗺️ 地図</button>`;
+                    } else {
+                        mediaBtn = `<span class="text-xs text-gray-400">なし</span>`;
+                    }
 
                     tr.innerHTML = `
                         <td class="p-3.5 text-center font-bold text-gray-400">${displayedCount}</td>
@@ -283,7 +289,7 @@
                         <td class="p-3.5 whitespace-nowrap text-xs font-semibold text-gray-600">${q.category || '-'}</td>
                         <td class="p-3.5 whitespace-nowrap">${diffBadge}</td>
                         <td class="p-3.5 text-center whitespace-nowrap space-x-1">
-                            ${q.mapEmbedUrl ? `<button onclick="openMap('\${q.question} - ${q.answer}', '${q.mapEmbedUrl}')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded font-bold transition">🗺️ 地図</button>` : ''}
+                            ${mediaBtn}
                             <button onclick="openEditModal(${originalIndex})" class="bg-amber-500 hover:bg-amber-600 text-white text-xs px-2.5 py-1 rounded font-bold transition">✏️ 編集</button>
                             <button onclick="deleteQuestion(${originalIndex})" class="bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded font-bold transition">🗑️ 削除</button>
                         </td>
@@ -295,11 +301,8 @@
             filteredCountEl.textContent = displayedCount;
             totalCountEl.textContent = allQuestions.length;
 
-            if (displayedCount === 0) {
-                noDataMsg.classList.remove('hidden');
-            } else {
-                noDataMsg.classList.add('hidden');
-            }
+            if (displayedCount === 0) noDataMsg.classList.remove('hidden');
+            else noDataMsg.classList.add('hidden');
         }
 
         window.openEditModal = function(index) {
@@ -320,6 +323,7 @@
 
             document.getElementById('form-latlng').value = '';
             document.getElementById('form-mapurl').value = q.mapEmbedUrl || '';
+            document.getElementById('form-imageurl').value = q.imageUrl || '';
             document.getElementById('form-placeholder').value = q.placeholderText || '【地図】';
 
             editModal.classList.remove('hidden');
@@ -329,16 +333,17 @@
             modalFormTitle.textContent = "新規問題の追加";
             editIndexInput.value = "-1";
             editForm.reset();
-            document.getElementById('form-placeholder').value = "【地図】";
+            document.getElementById('form-placeholder').value = "【画像】";
             document.getElementById('form-region').value = '京浜交通圏';
-            document.getElementById('form-category').value = '交差点名';
+            document.getElementById('form-category').value = '駅名・路線名';
             document.getElementById('form-difficulty').value = 'normal';
+            document.getElementById('form-imageurl').value = '';
             editModal.classList.remove('hidden');
         });
 
         window.deleteQuestion = function(index) {
             const q = allQuestions[index];
-            if (confirm(`以下の問題を削除しますか？\n\n「${q.question} - 正解: ${q.answer}」\n\n※この時点ではまだ保存されていません。右上の「☁️ 自動保存」ボタンを押すと確定します。`)) {
+            if (confirm(`以下の問題を削除しますか？\n\n「${q.question} - 正解: ${q.answer}」\n\n※右上の「☁️ 自動保存」を押すと確定します。`)) {
                 allQuestions.splice(index, 1);
                 renderTable();
             }
@@ -368,6 +373,7 @@
 
             const latlng = document.getElementById('form-latlng').value.trim();
             let mapUrl = document.getElementById('form-mapurl').value.trim();
+            const imageUrl = document.getElementById('form-imageurl').value.trim();
             const placeholder = document.getElementById('form-placeholder').value.trim();
 
             if (latlng) {
@@ -377,10 +383,11 @@
 
             const item = {
                 question: question,
-                placeholderText: placeholder || "【地図】",
+                placeholderText: placeholder || (imageUrl ? "【画像】" : "【地図】"),
             };
 
             if (mapUrl) item.mapEmbedUrl = mapUrl;
+            if (imageUrl) item.imageUrl = imageUrl;
 
             item.options = opts;
             item.answer = answer;
@@ -388,36 +395,28 @@
             item.category = category;
             item.difficulty = difficulty;
 
-            if (idx >= 0) {
-                allQuestions[idx] = item;
-            } else {
-                allQuestions.unshift(item);
-            }
+            if (idx >= 0) allQuestions[idx] = item;
+            else allQuestions.unshift(item);
 
             editModal.classList.add('hidden');
             renderTable();
             
-            // ユーザーに自動保存ボタンを押すよう促す
             const autoSaveBtn = document.getElementById('auto-save-btn');
             autoSaveBtn.classList.add('animate-pulse', 'bg-red-500');
             autoSaveBtn.classList.remove('bg-blue-600');
             autoSaveBtn.textContent = '☁️ 変更あり: クリックしてGitHubに保存';
         });
 
-        // ==========================================
-        // GitHub API による自動保存機能
-        // ==========================================
         document.getElementById('auto-save-btn').addEventListener('click', async () => {
             if (allQuestions.length === 0) {
                 alert("問題データがありません。");
                 return;
             }
 
-            // 1. 合鍵（トークン）がブラウザに保存されているかチェック
             let token = localStorage.getItem('github_token');
             if (!token) {
                 token = prompt("GitHubに自動保存するための「合鍵（Personal Access Token）」を入力してください。\n(ghp_ から始まる文字列)\n※このパスワードはあなたのブラウザ内のみに安全に保存されます。");
-                if (!token) return; // キャンセル時
+                if (!token) return; 
                 localStorage.setItem('github_token', token);
             }
 
@@ -428,14 +427,8 @@
             const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
 
             try {
-                // 2. 現在のファイルのバージョン情報 (sha) を取得する
-                const getRes = await fetch(apiUrl, {
-                    headers: { 'Authorization': `token ${token}` }
-                });
-                
-                if (getRes.status === 401 || getRes.status === 403) {
-                    throw new Error("鍵（トークン）が間違っているか、権限がありません。再設定してください。");
-                }
+                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `token ${token}` } });
+                if (getRes.status === 401 || getRes.status === 403) throw new Error("鍵（トークン）が間違っているか、権限がありません。再設定してください。");
                 
                 let sha = "";
                 if (getRes.ok) {
@@ -443,22 +436,13 @@
                     sha = fileData.sha;
                 }
 
-                // 3. 最新のJSONを Base64 に変換して上書き保存 (PUT)
                 const jsonText = JSON.stringify(allQuestions, null, 4);
                 const encodedContent = utf8_to_b64(jsonText);
 
-                const putData = {
-                    message: "viewer.html から問題を更新・追加しました",
-                    content: encodedContent,
-                    sha: sha
-                };
-
+                const putData = { message: "viewer.html から問題を更新・追加しました", content: encodedContent, sha: sha };
                 const putRes = await fetch(apiUrl, {
                     method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify(putData)
                 });
 
@@ -467,33 +451,23 @@
                     throw new Error(errObj.message || '保存に失敗しました');
                 }
 
-                // 成功時の処理
-                alert(`✨ 成功！\n全 ${allQuestions.length} 件のデータが GitHub (questions.json) に自動で上書き保存されました。\n\n※実際のクイズ画面に反映されるまで1〜2分かかります。`);
-                
-                // ボタンを通常状態に戻す
+                alert(`✨ 成功！\n全 ${allQuestions.length} 件のデータが GitHub (questions.json) に自動で上書き保存されました。`);
                 btn.classList.remove('animate-pulse', 'bg-red-500');
                 btn.classList.add('bg-blue-600');
                 btn.textContent = '☁️ GitHubに自動保存 (反映)';
 
             } catch (error) {
                 alert(`❌ エラー発生: ${error.message}`);
-                // エラーが出た場合、念のためクリップボードにもコピーしておく親切設計
-                const jsonText = JSON.stringify(allQuestions, null, 4);
-                navigator.clipboard.writeText(jsonText).then(() => {
-                    alert("保存に失敗したため、代用としてクリップボードにデータをコピーしました。手動でGitHubに貼り付けて保存してください。");
-                });
             } finally {
                 btn.disabled = false;
             }
         });
 
-        // トークンをリセットする機能
         document.getElementById('reset-token-btn').addEventListener('click', () => {
             localStorage.removeItem('github_token');
             alert("ブラウザに記憶していた合鍵（トークン）を削除しました。\n次回保存時に再度入力を求められます。");
         });
 
-        // モーダル閉じる
         document.getElementById('cancel-edit-btn').addEventListener('click', () => editModal.classList.add('hidden'));
         document.getElementById('close-edit-modal').addEventListener('click', () => editModal.classList.add('hidden'));
 
@@ -503,12 +477,14 @@
             mapModal.classList.remove('hidden');
         };
 
+        window.openImage = function(url) {
+            modalTitle.textContent = "画像プレビュー";
+            modalMapContainer.innerHTML = `<img src="${url}" class="w-full h-full object-contain">`;
+            mapModal.classList.remove('hidden');
+        };
+
         document.getElementById('close-modal').addEventListener('click', () => mapModal.classList.add('hidden'));
-
-        [searchInput, regionSelect, categorySelect, difficultySelect].forEach(el => {
-            el.addEventListener('input', renderTable);
-        });
-
+        [searchInput, regionSelect, categorySelect, difficultySelect].forEach(el => el.addEventListener('input', renderTable));
         window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
