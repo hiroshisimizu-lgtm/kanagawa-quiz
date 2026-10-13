@@ -26,7 +26,7 @@
         ],
         "answer": "広台太田",
         "region": "京浜交通圏",
-        "category": "駅名・路線名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
@@ -41,7 +41,7 @@
         ],
         "answer": "通町一丁目",
         "region": "京浜交通圏",
-        "category": "駅名・路線名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
@@ -177,7 +177,7 @@
         ],
         "answer": "中華街東門",
         "region": "京浜交通圏",
-        "category": "地名・施設名",
+        "category": "交差点名",
         "difficulty": "normal"
     },
     {
