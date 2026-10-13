@@ -2,6 +2,51 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.4531655487922,139.62054649728645&t=m&hl=ja&z=17",
+        "options": [
+            "戸部小学校入口",
+            "御所山",
+            "紅梅通り",
+            "西平沼"
+        ],
+        "answer": "戸部小学校入口",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.47763271127987,139.62908134072055&t=m&hl=ja&z=17",
+        "options": [
+            "二ツ谷",
+            "西神奈川",
+            "広台太田",
+            "東白楽駅前"
+        ],
+        "answer": "広台太田",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.427715391463515,139.60638054237856&t=m&hl=ja&z=17",
+        "options": [
+            "通町一丁目",
+            "宮元町３丁目",
+            "鶴巻市場",
+            "蒔田中学校前"
+        ],
+        "answer": "通町一丁目",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.413384594841794,139.60847707935733&t=m&hl=ja&z=17",
         "options": [
             "浜小学校前",
