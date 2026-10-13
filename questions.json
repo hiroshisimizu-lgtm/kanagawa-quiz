@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.61467427571219,139.57670049223594&t=m&hl=ja&z=17",
+        "options": [
+            "宿河原",
+            "稲田中学校西",
+            "宿河原一丁目",
+            "稲田中学校北側"
+        ],
+        "answer": "宿河原",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.61783273267611,139.55816148001043&t=m&hl=ja&z=17",
+        "options": [
+            "根岸陸橋",
+            "稲生橋",
+            "枡形一丁目",
+            "多摩警察署前"
+        ],
+        "answer": "多摩警察署前",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.506892041422965,139.6022015108202&t=m&hl=ja&z=17",
         "options": [
             "多目的遊水地",
