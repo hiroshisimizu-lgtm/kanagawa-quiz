@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.40100206693574,139.52756099323022&t=m&hl=ja&z=17",
+        "options": [
+            "矢沢",
+            "戸塚区役所前",
+            "県営汲沢団地入口",
+            "バスセンター前"
+        ],
+        "answer": "矢沢",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.43561807416767,139.61051318214257&t=m&hl=ja&z=17",
+        "options": [
+            "花之木入口",
+            "Ｙ校前",
+            "宮元町１丁目",
+            "吉野町３丁目"
+        ],
+        "answer": "Ｙ校前",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.382728700906455,139.5014162247779&t=m&hl=ja&z=17",
         "options": [
             "汲沢入口",
