@@ -2,6 +2,51 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.382728700906455,139.5014162247779&t=m&hl=ja&z=17",
+        "options": [
+            "汲沢入口",
+            "ドリームハイツ",
+            "原宿",
+            "深谷"
+        ],
+        "answer": "深谷",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.377137744637054,139.50537180325932&t=m&hl=ja&z=17",
+        "options": [
+            "恵比寿",
+            "渋谷",
+            "原宿",
+            "代々木"
+        ],
+        "answer": "原宿",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.41685366680811,139.48515121316768&t=m&hl=ja&z=17",
+        "options": [
+            "和泉坂上",
+            "上飯田団地入口",
+            "上飯田交番前",
+            "いずみ中央駅入口"
+        ],
+        "answer": "和泉坂上",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.44740254740724,139.5043360930615&t=m&hl=ja&z=17",
         "options": [
             "原店バス停前",
