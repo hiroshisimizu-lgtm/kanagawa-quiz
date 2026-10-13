@@ -2,6 +2,21 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.456833952745846,139.61802323238152&t=m&hl=ja&z=17",
+        "options": [
+            "西平沼",
+            "戸部警察署前",
+            "戸部七丁目",
+            "浜松町"
+        ],
+        "answer": "西平沼",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.4531655487922,139.62054649728645&t=m&hl=ja&z=17",
         "options": [
             "戸部小学校入口",
