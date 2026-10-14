@@ -2,6 +2,36 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.61781143575764,139.55817235032754&t=m&hl=ja&z=17",
+        "options": [
+            "多摩警察署前",
+            "枡形一丁目",
+            "根岸陸橋",
+            "明王"
+        ],
+        "answer": "多摩警察署前",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.60621954086221,139.61030922723316&t=m&hl=ja&z=17",
+        "options": [
+            "溝口",
+            "溝口駅入口",
+            "高津小学校前",
+            "高津"
+        ],
+        "answer": "溝口",
+        "region": "京浜交通圏",
+        "category": "交差点名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.534313089920325,139.6673245628518&t=m&hl=ja&z=17",
         "options": [
             "末吉橋",
