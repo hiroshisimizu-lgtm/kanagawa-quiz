@@ -2,6 +2,51 @@
     {
         "question": "この交差点名は？",
         "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.60102382948591,139.58269374372742&t=m&hl=ja&z=17",
+        "options": [
+            "神木本町",
+            "等覚院入口",
+            "野川",
+            "上作延団地入口"
+        ],
+        "answer": "神木本町",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.58186496819178,139.59545148341945&t=m&hl=ja&z=17",
+        "options": [
+            "野川団地入口",
+            "東平台",
+            "馬絹",
+            "梶ヶ谷"
+        ],
+        "answer": "馬絹",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
+        "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.56702908858118,139.5640248094573&t=m&hl=ja&z=17",
+        "options": [
+            "中川",
+            "新石川",
+            "荏田町",
+            "あざみ野駅入口"
+        ],
+        "answer": "新石川",
+        "region": "京浜交通圏",
+        "category": "駅名・路線名",
+        "difficulty": "normal"
+    },
+    {
+        "question": "この交差点名は？",
+        "placeholderText": "【画像】",
         "mapEmbedUrl": "https://maps.google.co.jp/maps?output=embed&q=35.61781143575764,139.55817235032754&t=m&hl=ja&z=17",
         "options": [
             "多摩警察署前",
